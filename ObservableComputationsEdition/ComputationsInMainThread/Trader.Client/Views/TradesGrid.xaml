@@ -1,0 +1,74 @@
+﻿<UserControl
+    x:Class="Trader.Client.Views.TradesGrid"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    d:DesignHeight="300"
+    d:DesignWidth="300"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.datagrid.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+
+    <Grid>
+        <DataGrid
+            AutoGenerateColumns="False"
+            EnableColumnVirtualization="True"
+            EnableRowVirtualization="True"
+            IsReadOnly="True"
+            ItemsSource="{Binding}">
+            <DataGrid.RowStyle>
+                <Style BasedOn="{StaticResource MaterialDesignDataGridRow}" TargetType="{x:Type DataGridRow}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Recent}" Value="{x:Static system:Boolean.TrueString}">
+                            <Setter Property="Background" Value="{DynamicResource SecondaryAccentBrush}" />
+                            <Setter Property="Foreground" Value="{DynamicResource SecondaryAccentForegroundBrush}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Trade.Customer, Mode=OneWay}" Header="Customer" />
+
+
+                <DataGridTextColumn Binding="{Binding Trade.CurrencyPair, Mode=OneWay}" Header="Currency Pair" />
+
+                <DataGridTextColumn Binding="{Binding Trade.Amount, Mode=OneWay, StringFormat='N'}" Header="Amount">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Right" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn
+                    Binding="{Binding Trade.TradePrice, Mode=OneWay}"
+                    Header="Trade Price"
+                    TextBlock.TextAlignment="Right" />
+                <DataGridTextColumn
+                    Binding="{Binding Trade.MarketPrice, Mode=OneWay}"
+                    Header="Market Price"
+                    TextBlock.TextAlignment="Right" />
+                <DataGridTextColumn
+                    Binding="{Binding Trade.PercentFromMarket.Value, Mode=OneWay}"
+                    Header="%"
+                    TextBlock.TextAlignment="Right" />
+
+                <DataGridTextColumn Binding="{Binding Trade.Status, Mode=OneWay}" Header="Status" />
+
+                <DataGridTextColumn Binding="{Binding Trade.Timestamp, Mode=OneWay}" Header="Created At" />
+            </DataGrid.Columns>
+
+        </DataGrid>
+    </Grid>
+</UserControl>

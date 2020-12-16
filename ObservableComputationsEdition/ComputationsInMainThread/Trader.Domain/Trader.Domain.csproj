@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B2ED55EA-A452-4935-8CFB-F765F5948ECA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Trader.Domain</RootNamespace>
+    <AssemblyName>Trader.Domain</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Reactive, Version=4.4.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reactive.4.4.1\lib\net46\System.Reactive.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Infrastucture\AbstractNotifyPropertyChanged.cs" />
+    <Compile Include="Infrastucture\ExtentionMethods.cs" />
+    <Compile Include="Infrastucture\RecurringAction.cs" />
+    <Compile Include="Infrastucture\ThrottlingDispatcher.cs" />
+    <Compile Include="Infrastucture\Extensions.cs" />
+    <Compile Include="Infrastucture\ILogger.cs" />
+    <Compile Include="Infrastucture\IObjectFactory.cs" />
+    <Compile Include="Infrastucture\WpfOcDispatcher.cs" />
+    <Compile Include="Model\BuyOrSell.cs" />
+    <Compile Include="Model\CurrencyPair.cs" />
+    <Compile Include="Model\CurrencyPairPosition.cs" />
+    <Compile Include="Model\MarketData.cs" />
+    <Compile Include="Model\SortContainer.cs" />
+    <Compile Include="Model\SortParameterData.cs" />
+    <Compile Include="Model\TimePeriod.cs" />
+    <Compile Include="Model\Trade.cs" />
+    <Compile Include="Model\TradeProxy.cs" />
+    <Compile Include="Model\TradesByPercentDiff.cs" />
+    <Compile Include="Model\TradesByTime.cs" />
+    <Compile Include="Model\TradesPosition.cs" />
+    <Compile Include="Model\TradeStatus.cs" />
+    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IMarketDataService.cs" />
+    <Compile Include="Services\INearToMarketService.cs" />
+    <Compile Include="Services\IStaticData.cs" />
+    <Compile Include="Services\ITradeService.cs" />
+    <Compile Include="Services\MarketDataService.cs" />
+    <Compile Include="Services\NearToMarketService.cs" />
+    <Compile Include="Services\StaticData.cs" />
+    <Compile Include="Services\TradeAgeUpdateJob.cs" />
+    <Compile Include="Services\TradeGenerator.cs" />
+    <Compile Include="Services\TradePriceUpdateJob.cs" />
+    <Compile Include="Services\TradeService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\..\..\Projects\ObservableComputations\src\ObservableComputations\ObservableComputations.csproj">
+      <Project>{19cb0f05-4ce0-4240-a9d1-4a64c1fb4112}</Project>
+      <Name>ObservableComputations</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

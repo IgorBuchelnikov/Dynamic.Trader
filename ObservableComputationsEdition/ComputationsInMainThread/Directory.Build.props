@@ -1,0 +1,14 @@
+<Project>
+  <PropertyGroup>
+    <LangVersion>7.2</LangVersion>
+    <Authors>Roland Pheasant</Authors>
+    <Owners>Roland Pheasant</Owners>
+    <Product>Dynamic Trader</Product>
+    <Copyright>Copyright Roland Pheasant 2011-2018</Copyright>
+    <!--<CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>-->
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <SolutionDir Condition="'$(SolutionDir)' == ''">$(MSBuildThisFileDirectory)</SolutionDir>
+  </PropertyGroup>
+</Project>

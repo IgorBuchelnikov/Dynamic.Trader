@@ -1,0 +1,63 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2003
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".other", ".other", "{F84001B2-C681-4167-A317-DCEE87C22736}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{D801B9A0-D368-4EEB-93C7-7D463E4CAA22}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		Directory.build.targets = Directory.build.targets
+		global.json = global.json
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trader.Domain", "Trader.Domain\Trader.Domain.csproj", "{B2ED55EA-A452-4935-8CFB-F765F5948ECA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trader.Client", "Trader.Client\Trader.Client.csproj", "{F6FE68D1-8D23-4BC0-92E0-47F4B7DA7FF6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ObservableComputations", "C:\Projects\ObservableComputations\src\ObservableComputations\ObservableComputations.csproj", "{19CB0F05-4CE0-4240-A9D1-4A64C1FB4112}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B2ED55EA-A452-4935-8CFB-F765F5948ECA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2ED55EA-A452-4935-8CFB-F765F5948ECA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2ED55EA-A452-4935-8CFB-F765F5948ECA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B2ED55EA-A452-4935-8CFB-F765F5948ECA}.Debug|x86.Build.0 = Debug|Any CPU
+		{B2ED55EA-A452-4935-8CFB-F765F5948ECA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2ED55EA-A452-4935-8CFB-F765F5948ECA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2ED55EA-A452-4935-8CFB-F765F5948ECA}.Release|x86.ActiveCfg = Release|Any CPU
+		{B2ED55EA-A452-4935-8CFB-F765F5948ECA}.Release|x86.Build.0 = Release|Any CPU
+		{F6FE68D1-8D23-4BC0-92E0-47F4B7DA7FF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6FE68D1-8D23-4BC0-92E0-47F4B7DA7FF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6FE68D1-8D23-4BC0-92E0-47F4B7DA7FF6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F6FE68D1-8D23-4BC0-92E0-47F4B7DA7FF6}.Debug|x86.Build.0 = Debug|Any CPU
+		{F6FE68D1-8D23-4BC0-92E0-47F4B7DA7FF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6FE68D1-8D23-4BC0-92E0-47F4B7DA7FF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6FE68D1-8D23-4BC0-92E0-47F4B7DA7FF6}.Release|x86.ActiveCfg = Release|Any CPU
+		{F6FE68D1-8D23-4BC0-92E0-47F4B7DA7FF6}.Release|x86.Build.0 = Release|Any CPU
+		{19CB0F05-4CE0-4240-A9D1-4A64C1FB4112}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19CB0F05-4CE0-4240-A9D1-4A64C1FB4112}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19CB0F05-4CE0-4240-A9D1-4A64C1FB4112}.Debug|x86.ActiveCfg = Debug|x86
+		{19CB0F05-4CE0-4240-A9D1-4A64C1FB4112}.Debug|x86.Build.0 = Debug|x86
+		{19CB0F05-4CE0-4240-A9D1-4A64C1FB4112}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19CB0F05-4CE0-4240-A9D1-4A64C1FB4112}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19CB0F05-4CE0-4240-A9D1-4A64C1FB4112}.Release|x86.ActiveCfg = Release|x86
+		{19CB0F05-4CE0-4240-A9D1-4A64C1FB4112}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C06242D9-4BE7-4C9A-9CD3-96809DEE42EF}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,176 @@
+﻿<UserControl
+    x:Class="Trader.Client.Views.PagedDataView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    xmlns:views="clr-namespace:Trader.Client.Views"
+    xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
+    d:DataContext="{d:DesignInstance views:PagedDataViewer,
+                                     IsDesignTimeCreatable=False}"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.listview.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.button.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Margin="4,0,0,0" Orientation="Horizontal">
+
+            <wpf:PackIcon
+                Width="24"
+                Height="24"
+                Margin="4,4,0,0"
+                Foreground="{Binding ElementName=SortCombo, Path=BorderBrush}"
+                Kind="SortAscending" />
+
+            <ComboBox
+                x:Name="SortCombo"
+                Width="150"
+                Height="25"
+                Margin="4,0,0,0"
+                HorizontalAlignment="Left"
+                DisplayMemberPath="Description"
+                ItemsSource="{Binding SortParameters.SortItems}"
+                SelectedItem="{Binding SortParameters.SelectedItem, Mode=TwoWay}" />
+
+
+            <wpf:PackIcon
+                Width="24"
+                Height="24"
+                Margin="4,4,0,0"
+                Foreground="{Binding ElementName=SearchBox, Path=BorderBrush}"
+                Kind="Magnify" />
+            <TextBox
+                x:Name="SearchBox"
+                MinWidth="125"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                wpf:HintAssist.Hint="Enter search text..."
+                Text="{Binding SearchHints.SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        </StackPanel>
+
+        <TextBlock
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="0,0,4,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Text="{Binding AllData.Count, StringFormat='The are \{0} trades matching filter'}" />
+
+        <ListView x:Name="ListView"
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Margin="4,8,0,0"
+            BorderThickness="0"
+            ItemsSource="{Binding Data}">
+
+            <ListView.Resources>
+                <Style BasedOn="{StaticResource MaterialDesignGridViewItem}" TargetType="{x:Type ListViewItem}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Recent}" Value="{x:Static system:Boolean.TrueString}">
+                            <Setter Property="Background" Value="{DynamicResource SecondaryAccentBrush}" />
+                            <Setter Property="Foreground" Value="{DynamicResource SecondaryAccentForegroundBrush}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.Resources>
+
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn
+                        DisplayMemberBinding="{Binding Trade.Customer}"
+                        Header="Customer"
+                        TextBlock.TextAlignment="Left" />
+                    <GridViewColumn
+                        DisplayMemberBinding="{Binding Trade.CurrencyPair}"
+                        Header="Currency Pair"
+                        TextBlock.TextAlignment="Left" />
+                    <GridViewColumn
+                        DisplayMemberBinding="{Binding Trade.Amount}"
+                        Header="Amount"
+                        TextBlock.TextAlignment="Center" />
+                    <GridViewColumn
+                        DisplayMemberBinding="{Binding Trade.TradePrice}"
+                        Header="Rate"
+                        TextBlock.TextAlignment="Center" />
+                    <GridViewColumn
+                        DisplayMemberBinding="{Binding Trade.Status}"
+                        Header="Status"
+                        TextBlock.TextAlignment="Center" />
+                    <GridViewColumn
+                        DisplayMemberBinding="{Binding Trade.Timestamp}"
+                        Header="Modified"
+                        TextBlock.TextAlignment="Center" />
+                </GridView>
+            </ListView.View>
+
+        </ListView>
+
+        <StackPanel
+            Grid.Row="2"
+            Grid.Column="0"
+            Margin="8,8,4,0"
+            VerticalAlignment="Center"
+            Orientation="Horizontal">
+
+            <RepeatButton
+                Height="26"
+                Padding="0"
+                Command="{Binding PreviousPageCommand}"
+                ToolTip="Move to previous page">
+                <materialDesign:PackIcon
+                    Width="24"
+                    Height="24"
+                    Kind="SkipPrevious" />
+            </RepeatButton>
+
+            <TextBlock Margin="8,0,0,0" VerticalAlignment="Center">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="Page {0} of {1}">
+                        <Binding Path="Data.CurrentPage" />
+                        <Binding Path="Data.PageCount" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+
+            <RepeatButton
+                Height="26"
+                Margin="8,0,0,0"
+                Padding="0"
+                Command="{Binding NextPageCommand}"
+                ToolTip="Move to next page">
+                <materialDesign:PackIcon
+                    Width="24"
+                    Height="24"
+                    Kind="SkipNext" />
+            </RepeatButton>
+
+            <TextBlock
+                Margin="8,0,4,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Text="{Binding Data.PageSize, StringFormat='(\{0} items per page)'}" />
+        </StackPanel>
+
+    </Grid>
+</UserControl>
