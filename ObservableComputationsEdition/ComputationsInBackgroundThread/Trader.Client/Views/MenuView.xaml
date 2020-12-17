@@ -85,83 +85,78 @@
 
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Grid
-                            Margin="0,4,4,0"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center">
-
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-
-                            <Button
-                                x:Name="tile"
-                                Grid.Column="0"
-                                Width="85"
-                                Height="85"
-                                Margin="5"
-                                Padding="8"
-                                HorizontalContentAlignment="Center"
-                                Command="{Binding Command}"
-                                Style="{StaticResource MaterialDesignRaisedButton}"
-                                ToolTip="{Binding Description}">
-
-                                <TextBlock
-                                    FontSize="14"
-                                    FontWeight="Normal"
-                                    Text="{Binding Title}"
-                                    TextWrapping="WrapWithOverflow" />
-                            </Button>
-
+                        <Border
+                            Margin="8,8,8,8"
+                            BorderBrush="#66b4f3"
+                            BorderThickness="2"
+                            CornerRadius="5">
                             <Grid
-                                Grid.Column="1"
-                                Margin="5,4,5,0"
-                                VerticalAlignment="Top"
-                                Visibility="{Binding ElementName=showLinks, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                Margin="4,4,4,4"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center">
 
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="*" />
-                                </Grid.RowDefinitions>
-
-                                <TextBlock
-                                    Grid.Row="0"
-                                    HorizontalAlignment="Left"
-                                    Text="{Binding Description}"
-                                    TextWrapping="WrapWithOverflow" />
-
-                                <ItemsControl
-                                    Grid.Row="1"
-                                    Margin="0,3,0,0"
-                                    HorizontalAlignment="Left"
-                                    ItemsSource="{Binding Link}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
 
 
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="75" />
-                                                    <ColumnDefinition Width="*" />
-                                                </Grid.ColumnDefinitions>
+                                <Button
+                                    x:Name="tile"
+                                    Grid.Column="0"
+                                    Width="85"
+                                    Height="85"
+                                    Margin="5"
+                                    Padding="8"
+                                    HorizontalContentAlignment="Center"
+                                    Command="{Binding Command}"
+                                    Style="{StaticResource MaterialDesignRaisedButton}"
+                                    ToolTip="{Binding Description}">
 
-                                                <TextBlock Text="{Binding Text}" />
-                                                <TextBlock
-                                                    Grid.Column="1"
-                                                    Margin="4,0,0,0"
-                                                    ToolTip="{Binding Url}">
-                                                    <Hyperlink infrastucture:HyperlinkExtensions.IsExternal="true" NavigateUri="{Binding Url}">
-                                                        <TextBlock Text="{Binding Display}" />
-                                                    </Hyperlink>
-                                                </TextBlock>
-                                            </Grid>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
+                                    <TextBlock
+                                        FontSize="14"
+                                        FontWeight="Normal"
+                                        Text="{Binding Title}"
+                                        TextWrapping="WrapWithOverflow" />
+                                </Button>
+
+                                <ListView
+                                    Grid.Column="1"
+                                    Margin="5,4,5,0"
+                                    VerticalAlignment="Top"
+                                    ItemsSource="{Binding Link}"
+                                    Visibility="{Binding ElementName=showLinks, Path=IsChecked, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn DisplayMemberBinding="{Binding Path=Text}" />
+                                            <GridViewColumn Header="ObservableComputations">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate DataType="infrastucture:Link">
+                                                        <TextBlock Margin="4,0,0,0" ToolTip="{Binding Url}">
+                                                            <Hyperlink infrastucture:HyperlinkExtensions.IsExternal="true" NavigateUri="{Binding Url}">
+                                                                <TextBlock Text="{Binding Display}" />
+                                                            </Hyperlink>
+                                                        </TextBlock>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn Header="DynamicData">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate DataType="infrastucture:Link">
+                                                        <TextBlock Margin="4,0,0,0" ToolTip="{Binding Url}">
+                                                            <Hyperlink infrastucture:HyperlinkExtensions.IsExternal="true" NavigateUri="{Binding Url}">
+                                                                <TextBlock Text="{Binding Display}" />
+                                                            </Hyperlink>
+                                                        </TextBlock>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
                             </Grid>
-                        </Grid>
+                        </Border>
+
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
