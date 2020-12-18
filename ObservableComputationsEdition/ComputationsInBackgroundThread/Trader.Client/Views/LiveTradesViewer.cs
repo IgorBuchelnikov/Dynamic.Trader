@@ -20,6 +20,7 @@ namespace Trader.Client.Views
 			SearchHints = searchHints;
 
 			_data = tradeService.Live
+                .CollectionPausing(new Computing<bool>(() => Paused).ScalarDispatching(backgroundOcDispatcher, wpfOcDispatcher))
 				.Filtering(t =>	
 					t.CurrencyPair.Contains(SearchHints.SearchTextToApply.Value, StringComparison.OrdinalIgnoreCase)
 					|| t.Customer.Contains(SearchHints.SearchTextToApply.Value, StringComparison.OrdinalIgnoreCase))

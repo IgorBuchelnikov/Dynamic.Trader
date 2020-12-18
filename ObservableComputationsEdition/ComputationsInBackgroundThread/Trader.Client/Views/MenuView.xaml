@@ -91,7 +91,7 @@
                             BorderThickness="2"
                             CornerRadius="5">
                             <Grid
-                                Margin="4,4,4,4"
+                                Margin="1,1,1,1"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center">
 
@@ -132,8 +132,8 @@
                                             <GridViewColumn Header="ObservableComputations">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate DataType="infrastucture:Link">
-                                                        <TextBlock Margin="4,0,0,0" ToolTip="{Binding Url}">
-                                                            <Hyperlink infrastucture:HyperlinkExtensions.IsExternal="true" NavigateUri="{Binding Url}">
+                                                        <TextBlock Margin="4,0,0,0" ToolTip="{Binding UrlObservableComputations}">
+                                                            <Hyperlink infrastucture:HyperlinkExtensions.IsExternal="true" NavigateUri="{Binding UrlObservableComputations}">
                                                                 <TextBlock Text="{Binding Display}" />
                                                             </Hyperlink>
                                                         </TextBlock>
@@ -143,8 +143,8 @@
                                             <GridViewColumn Header="DynamicData">
                                                 <GridViewColumn.CellTemplate>
                                                     <DataTemplate DataType="infrastucture:Link">
-                                                        <TextBlock Margin="4,0,0,0" ToolTip="{Binding Url}">
-                                                            <Hyperlink infrastucture:HyperlinkExtensions.IsExternal="true" NavigateUri="{Binding Url}">
+                                                        <TextBlock Margin="4,0,0,0" ToolTip="{Binding UrlDynamicData}">
+                                                            <Hyperlink infrastucture:HyperlinkExtensions.IsExternal="true" NavigateUri="{Binding UrlDynamicData}">
                                                                 <TextBlock Text="{Binding Display}" />
                                                             </Hyperlink>
                                                         </TextBlock>
