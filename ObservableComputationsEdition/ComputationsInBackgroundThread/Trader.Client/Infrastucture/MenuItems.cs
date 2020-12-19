@@ -9,23 +9,14 @@ using Trader.Domain.Infrastucture;
 
 namespace Trader.Client.Infrastucture
 {
-	public enum MenuCategory
-	{
-		ReactiveUi,
-		DynamicData
-	}
-
-
 	public class MenuItems : AbstractNotifyPropertyChanged, IDisposable
 	{
 		private readonly ILogger _logger;
 		private readonly IObjectProvider _objectProvider;
-		private readonly IEnumerable<MenuItem> _menuItems;
 		private readonly ISubject<ViewContainer> _viewCreatedSubject = new Subject<ViewContainer>();
 		private readonly Consumer _consumer = new Consumer();
 
 		private bool _showLinks=false;
-		private MenuCategory _category= MenuCategory.DynamicData;
 		private IEnumerable<MenuItem> _items;
 
 
@@ -34,7 +25,7 @@ namespace Trader.Client.Infrastucture
 			_logger = logger;
 			_objectProvider = objectProvider;
 			
-			_menuItems = new List<MenuItem>
+			Items = new List<MenuItem>
 			{
 				new MenuItem("Live Trades",
 					"A basic example, illustrating how to connect to a stream, inject a user filter and bind.",
@@ -114,15 +105,6 @@ namespace Trader.Client.Infrastucture
 		 
 					//}),
 			};
-
-
-			new Computing<MenuCategory>(() => Category)
-			.ScalarProcessing(
-				(value, _) =>
-				{
-					Items = _menuItems.Where(menu => menu.Category == value).ToArray();
-				})
-			.For(_consumer);
 		}
 
 		private void Open<T>(string title)
@@ -133,12 +115,6 @@ namespace Trader.Client.Infrastucture
 			var content = _objectProvider.Get<T>();
 			_viewCreatedSubject.OnNext(new ViewContainer(title, content));
 			_logger.Debug("--Opened '{0}'", title);
-		}
-
-		public MenuCategory Category
-		{
-			get => _category;
-			set => SetAndRaise(ref _category, value);
 		}
 
 		public IEnumerable<MenuItem> Items
