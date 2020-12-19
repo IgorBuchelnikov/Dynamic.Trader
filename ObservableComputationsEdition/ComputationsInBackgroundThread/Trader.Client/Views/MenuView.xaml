@@ -5,8 +5,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:infrastucture="clr-namespace:Trader.Client.Infrastucture"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	d:DataContext="{d:DesignInstance infrastucture:MenuItems,
-									 IsDesignTimeCreatable=False}"
+	d:DataContext="{d:DesignInstance infrastucture:MenuItems, IsDesignTimeCreatable=False}"
 	d:DesignHeight="300"
 	mc:Ignorable="d">
 	<UserControl.Resources>
