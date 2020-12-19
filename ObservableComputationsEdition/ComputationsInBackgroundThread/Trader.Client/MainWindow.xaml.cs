@@ -6,23 +6,23 @@ using Trader.Domain.Infrastucture;
 
 namespace Trader.Client
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : MetroWindow
-    {
-        public MainWindow()
-        {
-            InitializeComponent();
-        }
+	/// <summary>
+	/// Interaction logic for MainWindow.xaml
+	/// </summary>
+	public partial class MainWindow : MetroWindow
+	{
+		public MainWindow()
+		{
+			InitializeComponent();
+		}
 
-        private void MainWindow_OnClosing(object sender, CancelEventArgs e)
-        {
-            App.Container.Dispose();
+		private void MainWindow_OnClosing(object sender, CancelEventArgs e)
+		{
+			App.Container.Dispose();
 
-            while (!RecurringAction.AllInstancesIsDisposed)
-                Dispatcher.Invoke(() => { }, DispatcherPriority.Background);
+			while (!RecurringAction.AllInstancesIsDisposed)
+				Dispatcher.Invoke(() => { }, DispatcherPriority.Background);
 
-        }
-    }
+		}
+	}
 }

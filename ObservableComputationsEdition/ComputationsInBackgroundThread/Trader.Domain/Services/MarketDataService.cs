@@ -10,88 +10,88 @@ using Dispatcher = System.Windows.Threading.Dispatcher;
 
 namespace Trader.Domain.Services
 {
-    public class MarketDataService : IMarketDataService
-    {
-	    private readonly Dictionary<string, IReadScalar<MarketData>> _marketDataObservables = new Dictionary<string, IReadScalar<MarketData>>();
-	    private OcDispatcher _backgroundOcDispatcher;
+	public class MarketDataService : IMarketDataService
+	{
+	private readonly Dictionary<string, IReadScalar<MarketData>> _marketDataObservables = new Dictionary<string, IReadScalar<MarketData>>();
+	private OcDispatcher _backgroundOcDispatcher;
 
-        public MarketDataService(IStaticData staticData, OcDispatcher backgroundOcDispatcher)
-        {
-            _backgroundOcDispatcher = backgroundOcDispatcher;
+		public MarketDataService(IStaticData staticData, OcDispatcher backgroundOcDispatcher)
+		{
+			_backgroundOcDispatcher = backgroundOcDispatcher;
 
-            foreach (var item in staticData.CurrencyPairs)
-            {
-                _marketDataObservables[item.Code] = CreateObservableMarketData(item);
-            }
-        }
+			foreach (var item in staticData.CurrencyPairs)
+			{
+				_marketDataObservables[item.Code] = CreateObservableMarketData(item);
+			}
+		}
 
-        private IReadScalar<MarketData> CreateObservableMarketData(CurrencyPair currencyPair)
-        {
-	        return new MarketDataObsevable(currencyPair, _backgroundOcDispatcher);
-        }
+		private IReadScalar<MarketData> CreateObservableMarketData(CurrencyPair currencyPair)
+		{
+		return new MarketDataObsevable(currencyPair, _backgroundOcDispatcher);
+		}
 
-        public IReadScalar<MarketData> Get(string currencyPair)
-        {
-	        if (currencyPair == null) throw new ArgumentNullException(nameof(currencyPair));
-            if (_marketDataObservables.TryGetValue(currencyPair, out var marketDataObservable))
-                return marketDataObservable;
+		public IReadScalar<MarketData> Get(string currencyPair)
+		{
+		if (currencyPair == null) throw new ArgumentNullException(nameof(currencyPair));
+			if (_marketDataObservables.TryGetValue(currencyPair, out var marketDataObservable))
+				return marketDataObservable;
 
-            throw new Exception(currencyPair + " is an unknown currency pair");	        
-        }
+			throw new Exception(currencyPair + " is an unknown currency pair");		
+		}
 
-        private class MarketDataObsevable : AbstractNotifyPropertyChanged, IReadScalar<MarketData>, IDisposable
-        {
-	        private MarketData _value;
-            private RecurringAction _recurringAction;
+		private class MarketDataObsevable : AbstractNotifyPropertyChanged, IReadScalar<MarketData>, IDisposable
+		{
+		private MarketData _value;
+			private RecurringAction _recurringAction;
 
-	        public MarketDataObsevable(CurrencyPair currencyPair, OcDispatcher backgroundOcDispatcher)
-	        {
-		        var spread = currencyPair.DefaultSpread;
-		        var midRate = currencyPair.InitialPrice;
-		        var bid = midRate - (spread * currencyPair.PipSize);
-		        var offer = midRate + (spread * currencyPair.PipSize);
-		        var initial = new MarketData(currencyPair.Code, bid, offer);
+		public MarketDataObsevable(CurrencyPair currencyPair, OcDispatcher backgroundOcDispatcher)
+		{
+		var spread = currencyPair.DefaultSpread;
+		var midRate = currencyPair.InitialPrice;
+		var bid = midRate - (spread * currencyPair.PipSize);
+		var offer = midRate + (spread * currencyPair.PipSize);
+		var initial = new MarketData(currencyPair.Code, bid, offer);
 
-		        var currentPrice = initial;
+		var currentPrice = initial;
 
-		        Value = currentPrice;
+		Value = currentPrice;
 
-		        var random = new Random();
+		var random = new Random();
 
-		        //for a given period, move prices by up to 5 pips
-                _recurringAction = new RecurringAction(() =>
-                {
-                    int pips = random.Next(1, 5);
-				    //move up or down between 1 and 5 pips
-				    var adjustment = Math.Round(pips * currencyPair.PipSize, currencyPair.DecimalPlaces);
-                    MarketData marketData = random.NextDouble() > 0.5
-                        ? currentPrice + adjustment
-                        : currentPrice - adjustment;
+		//for a given period, move prices by up to 5 pips
+				_recurringAction = new RecurringAction(() =>
+				{
+					int pips = random.Next(1, 5);
+					//move up or down between 1 and 5 pips
+					var adjustment = Math.Round(pips * currencyPair.PipSize, currencyPair.DecimalPlaces);
+					MarketData marketData = random.NextDouble() > 0.5
+						? currentPrice + adjustment
+						: currentPrice - adjustment;
 
-                    backgroundOcDispatcher.Invoke(() =>                                       
-                        Value = marketData);
-                }, () => TimeSpan.FromSeconds(1 / (double)currencyPair.TickFrequency));
-	        }
+					backgroundOcDispatcher.Invoke(() =>									   
+						Value = marketData);
+				}, () => TimeSpan.FromSeconds(1 / (double)currencyPair.TickFrequency));
+		}
 
-	        public MarketData Value
-	        {
-		        get => _value;
-		        set => SetAndRaise(ref _value, value);
-	        }
+		public MarketData Value
+		{
+		get => _value;
+		set => SetAndRaise(ref _value, value);
+		}
 
-            public void Dispose()
-            {
-                _recurringAction.Dispose();
-            }
+			public void Dispose()
+			{
+				_recurringAction.Dispose();
+			}
 
-        }
+		}
 
-        public void Dispose()
-        {
-            foreach (MarketDataObsevable marketDataObsevable 
-                in _marketDataObservables.Values.Cast<MarketDataObsevable>())
-                marketDataObsevable.Dispose();
-        }
+		public void Dispose()
+		{
+			foreach (MarketDataObsevable marketDataObsevable 
+				in _marketDataObservables.Values.Cast<MarketDataObsevable>())
+				marketDataObsevable.Dispose();
+		}
 
-    }
+	}
 }

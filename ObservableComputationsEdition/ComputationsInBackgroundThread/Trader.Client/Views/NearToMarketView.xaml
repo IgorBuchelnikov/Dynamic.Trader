@@ -1,52 +1,52 @@
 ﻿<UserControl
-    x:Class="Trader.Client.Views.NearToMarketView"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:views="clr-namespace:Trader.Client.Views"
-    d:DataContext="{d:DesignInstance views:NearToMarketViewer,
-                                     IsDesignTimeCreatable=False}"
-    mc:Ignorable="d">
-    <Grid>
+	x:Class="Trader.Client.Views.NearToMarketView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:views="clr-namespace:Trader.Client.Views"
+	d:DataContext="{d:DesignInstance views:NearToMarketViewer,
+									 IsDesignTimeCreatable=False}"
+	mc:Ignorable="d">
+	<Grid>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="35" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="35" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
 
-        <StackPanel
-            Grid.Row="0"
-            Grid.Column="0"
-            Orientation="Horizontal">
+		<StackPanel
+			Grid.Row="0"
+			Grid.Column="0"
+			Orientation="Horizontal">
 
-            <Slider
-                Width="100"
-                Margin="4,0,0,0"
-                VerticalAlignment="Center"
-                IsSnapToTickEnabled="True"
-                Maximum="0.1"
-                Minimum="0.01"
-                TickFrequency=".01"
-                ToolTip="Move slider to filter by % from the market"
-                Value="{Binding NearToMarketPercent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+			<Slider
+				Width="100"
+				Margin="4,0,0,0"
+				VerticalAlignment="Center"
+				IsSnapToTickEnabled="True"
+				Maximum="0.1"
+				Minimum="0.01"
+				TickFrequency=".01"
+				ToolTip="Move slider to filter by % from the market"
+				Value="{Binding NearToMarketPercent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-            <TextBlock
-                Height="18"
-                Margin="4,0,0,0"
-                VerticalAlignment="Center"
-                Text="{Binding NearToMarketPercent, StringFormat='\{0} %'}" />
+			<TextBlock
+				Height="18"
+				Margin="4,0,0,0"
+				VerticalAlignment="Center"
+				Text="{Binding NearToMarketPercent, StringFormat='\{0} %'}" />
 
-            <TextBlock
-                Margin="4,0,0,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                Text="{Binding Data.Count, StringFormat='The are \{0} live in within this range'}" />
+			<TextBlock
+				Margin="4,0,0,0"
+				HorizontalAlignment="Left"
+				VerticalAlignment="Center"
+				Text="{Binding Data.Count, StringFormat='The are \{0} live in within this range'}" />
 
 
-        </StackPanel>
+		</StackPanel>
 
-        <views:TradesGrid Grid.Row="1" DataContext="{Binding Data}" />
+		<views:TradesGrid Grid.Row="1" DataContext="{Binding Data}" />
 
-    </Grid>
+	</Grid>
 </UserControl>

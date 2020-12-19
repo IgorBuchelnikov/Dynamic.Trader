@@ -2,14 +2,14 @@
 
 namespace Trader.Client.Views
 {
-    /// <summary>
-    /// Interaction logic for TradesByTimeView.xaml
-    /// </summary>
-    public partial class TradesByTimeView : UserControl
-    {
-        public TradesByTimeView()
-        {
-            InitializeComponent();
-        }
-    }
+	/// <summary>
+	/// Interaction logic for TradesByTimeView.xaml
+	/// </summary>
+	public partial class TradesByTimeView : UserControl
+	{
+		public TradesByTimeView()
+		{
+			InitializeComponent();
+		}
+	}
 }

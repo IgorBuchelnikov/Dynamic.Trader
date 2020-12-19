@@ -3,49 +3,49 @@ using System.Windows.Input;
 
 namespace Trader.Client.Infrastucture
 {
-    /// <summary>
-    /// A command wich accepts no parameter - assumes the view model will do the work
-    /// </summary>
-    public class Command : ICommand
-    {
-        private readonly Action _execute;
-        private readonly Func<bool> _canExecute;
+	/// <summary>
+	/// A command wich accepts no parameter - assumes the view model will do the work
+	/// </summary>
+	public class Command : ICommand
+	{
+		private readonly Action _execute;
+		private readonly Func<bool> _canExecute;
 
 
-        public Command(Action execute, Func<bool> canExecute = null)
-        {
-            if (execute == null) throw new ArgumentNullException("execute");
+		public Command(Action execute, Func<bool> canExecute = null)
+		{
+			if (execute == null) throw new ArgumentNullException("execute");
 
-            _execute = execute;
-            _canExecute = canExecute ?? (() => true);
-        }
+			_execute = execute;
+			_canExecute = canExecute ?? (() => true);
+		}
 
 
-        public bool CanExecute(object parameter)
-        {
-            return _canExecute();
-        }
+		public bool CanExecute(object parameter)
+		{
+			return _canExecute();
+		}
 
-        public void Execute(object parameter)
-        {
-            _execute();
-        }
+		public void Execute(object parameter)
+		{
+			_execute();
+		}
 
-        public event EventHandler CanExecuteChanged
-        {
-            add
-            {
-                CommandManager.RequerySuggested += value;
-            }
-            remove
-            {
-                CommandManager.RequerySuggested -= value;
-            }
-        }
+		public event EventHandler CanExecuteChanged
+		{
+			add
+			{
+				CommandManager.RequerySuggested += value;
+			}
+			remove
+			{
+				CommandManager.RequerySuggested -= value;
+			}
+		}
 
-        public void Refresh()
-        {
-            CommandManager.InvalidateRequerySuggested();
-        }
-    }
+		public void Refresh()
+		{
+			CommandManager.InvalidateRequerySuggested();
+		}
+	}
 }

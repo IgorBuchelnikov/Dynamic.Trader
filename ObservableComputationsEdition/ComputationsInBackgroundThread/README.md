@@ -10,14 +10,14 @@ The demo illustrates how the following code:
 
 ```csharp
 var loader = tradeService.All
-    .Connect(trade => trade.Status == TradeStatus.Live) //prefilter live trades only
-    .Filter(_filter) // apply user filter
-    .Transform(trade => new TradeProxy(trade),new ParallelisationOptions(ParallelType.Ordered,5))
-    .Sort(SortExpressionComparer<TradeProxy>.Descending(t => t.Timestamp),SortOptimisations.ComparesImmutableValuesOnly)
-    .ObserveOnDispatcher()
-    .Bind(_data)   // update observable collection bindings
-    .DisposeMany() //since TradeProxy is disposable dispose when no longer required
-    .Subscribe();
+	.Connect(trade => trade.Status == TradeStatus.Live) //prefilter live trades only
+	.Filter(_filter) // apply user filter
+	.Transform(trade => new TradeProxy(trade),new ParallelisationOptions(ParallelType.Ordered,5))
+	.Sort(SortExpressionComparer<TradeProxy>.Descending(t => t.Timestamp),SortOptimisations.ComparesImmutableValuesOnly)
+	.ObserveOnDispatcher()
+	.Bind(_data)   // update observable collection bindings
+	.DisposeMany() //since TradeProxy is disposable dispose when no longer required
+	.Subscribe();
 ``` 
  produces this
  
@@ -27,13 +27,13 @@ or how the following extract
 
  ```csharp  
  var loader = tradeService.Live.Connect()
-            .Group(trade => trade.CurrencyPair)
-            .Transform(group => new CurrencyPairPosition(group))
-            .Sort(SortExpressionComparer<CurrencyPairPosition>.Ascending(t => t.CurrencyPair))
-            .ObserveOn(schedulerProvider.MainThread)
-            .Bind(_data)
-            .DisposeMany()
-            .Subscribe();
+			.Group(trade => trade.CurrencyPair)
+			.Transform(group => new CurrencyPairPosition(group))
+			.Sort(SortExpressionComparer<CurrencyPairPosition>.Ascending(t => t.CurrencyPair))
+			.ObserveOn(schedulerProvider.MainThread)
+			.Bind(_data)
+			.DisposeMany()
+			.Subscribe();
 
 	//when CurrencyPairPosition class does this
 	tradesByCurrencyPair.Cache.Connect()
@@ -45,7 +45,7 @@ or how the following extract
 				return new TradesPosition(buy,sell,count);
 			})
 			.Subscribe(position => Position = position);
-        }
+		}
 ```
 Produces this.
 

@@ -2,14 +2,14 @@
 
 namespace Trader.Client.Views
 {
-    /// <summary>
-    /// Interaction logic for NearToMarketView.xaml
-    /// </summary>
-    public partial class NearToMarketView : UserControl
-    {
-        public NearToMarketView()
-        {
-            InitializeComponent();
-        }
-    }
+	/// <summary>
+	/// Interaction logic for NearToMarketView.xaml
+	/// </summary>
+	public partial class NearToMarketView : UserControl
+	{
+		public NearToMarketView()
+		{
+			InitializeComponent();
+		}
+	}
 }

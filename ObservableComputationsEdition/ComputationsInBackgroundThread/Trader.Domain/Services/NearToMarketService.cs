@@ -8,34 +8,34 @@ using Trader.Domain.Model;
 
 namespace Trader.Domain.Services
 {
-    public class NearToMarketService : INearToMarketService
-    {
-        private readonly ITradeService _tradeService;
-        private readonly ILogger _logger;
+	public class NearToMarketService : INearToMarketService
+	{
+		private readonly ITradeService _tradeService;
+		private readonly ILogger _logger;
 
-        public NearToMarketService([NotNull] ITradeService tradeService , ILogger logger)
-        {
-            _tradeService = tradeService ?? throw new ArgumentNullException(nameof(tradeService));
-            _logger = logger;
-        }
+		public NearToMarketService([NotNull] ITradeService tradeService , ILogger logger)
+		{
+			_tradeService = tradeService ?? throw new ArgumentNullException(nameof(tradeService));
+			_logger = logger;
+		}
 
-        public ObservableCollection<Trade> Query(Expression<Func<decimal>> percentFromMarket)
-        {
-            if (percentFromMarket == null) throw new ArgumentNullException(nameof(percentFromMarket));
+		public ObservableCollection<Trade> Query(Expression<Func<decimal>> percentFromMarket)
+		{
+			if (percentFromMarket == null) throw new ArgumentNullException(nameof(percentFromMarket));
 
-            return _tradeService.Live.Filtering(ConstructPredicate(percentFromMarket));
-        }
+			return _tradeService.Live.Filtering(ConstructPredicate(percentFromMarket));
+		}
 
-        private Expression<Func<Trade, bool>> ConstructPredicate(Expression<Func<decimal>> percentFromMarket)
-        {
-	        var tradeParameter = Expression.Parameter(typeof(Trade));
-	        var tradePercentFromMarket = Expression.Property(tradeParameter, nameof(Trade.PercentFromMarket));
-	        var tradePercentFromMarketValue = Expression.Property(tradePercentFromMarket, nameof(Computing<decimal>.Value));
-	        var mathAbsMethodInfo = typeof(Math).GetMethod(nameof(Math.Abs), new[] {typeof(decimal)});
-	        var absTradePercentFromMarketValue = Expression.Call(null, mathAbsMethodInfo, tradePercentFromMarketValue);
+		private Expression<Func<Trade, bool>> ConstructPredicate(Expression<Func<decimal>> percentFromMarket)
+		{
+		var tradeParameter = Expression.Parameter(typeof(Trade));
+		var tradePercentFromMarket = Expression.Property(tradeParameter, nameof(Trade.PercentFromMarket));
+		var tradePercentFromMarketValue = Expression.Property(tradePercentFromMarket, nameof(Computing<decimal>.Value));
+		var mathAbsMethodInfo = typeof(Math).GetMethod(nameof(Math.Abs), new[] {typeof(decimal)});
+		var absTradePercentFromMarketValue = Expression.Call(null, mathAbsMethodInfo, tradePercentFromMarketValue);
 
-	        return Expression.Lambda<Func<Trade, bool>>(
-		        Expression.LessThanOrEqual(absTradePercentFromMarketValue, percentFromMarket.Body), tradeParameter);
-        }
-    }
+		return Expression.Lambda<Func<Trade, bool>>(
+		Expression.LessThanOrEqual(absTradePercentFromMarketValue, percentFromMarket.Body), tradeParameter);
+		}
+	}
 }

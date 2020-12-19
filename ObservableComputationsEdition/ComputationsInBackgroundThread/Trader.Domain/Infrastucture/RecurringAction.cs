@@ -6,89 +6,89 @@ using System.Threading;
 
 namespace Trader.Domain.Infrastucture
 {
-    public class RecurringAction : IDisposable
-    {
-        public Action Action { get; private set; }
-        public Func<TimeSpan> IntervalFunc { get; private set; }
-        public  bool IsAlive  { get; private set; }
-        public  bool IsDisposed  { get; private set; }
-        private ManualResetEventSlim _mresInterval = new ManualResetEventSlim(false);
-        private ManualResetEventSlim _mresStop = new ManualResetEventSlim(false);
+	public class RecurringAction : IDisposable
+	{
+		public Action Action { get; private set; }
+		public Func<TimeSpan> IntervalFunc { get; private set; }
+		public  bool IsAlive  { get; private set; }
+		public  bool IsDisposed  { get; private set; }
+		private ManualResetEventSlim _mresInterval = new ManualResetEventSlim(false);
+		private ManualResetEventSlim _mresStop = new ManualResetEventSlim(false);
 
-        private static List<RecurringAction> _notDisposedInstances = new List<RecurringAction>();
-        private  static object _notDisposedInstancesLock = new object();
-        private string _instantiatingStackTrace;
+		private static List<RecurringAction> _notDisposedInstances = new List<RecurringAction>();
+		private  static object _notDisposedInstancesLock = new object();
+		private string _instantiatingStackTrace;
 
-        public static bool AllInstancesIsDisposed 
-        {
-            get
-            {
-                lock (_notDisposedInstancesLock)
-                    return !_notDisposedInstances.Any();
-            }
-        }
+		public static bool AllInstancesIsDisposed 
+		{
+			get
+			{
+				lock (_notDisposedInstancesLock)
+					return !_notDisposedInstances.Any();
+			}
+		}
 
-        public RecurringAction(Action action, Func<TimeSpan> intervalFunc)
-        {
-            _instantiatingStackTrace = Environment.StackTrace;
-            IsAlive = true;
-            Action = action;
-            IntervalFunc = intervalFunc;
+		public RecurringAction(Action action, Func<TimeSpan> intervalFunc)
+		{
+			_instantiatingStackTrace = Environment.StackTrace;
+			IsAlive = true;
+			Action = action;
+			IntervalFunc = intervalFunc;
 
-            lock (_notDisposedInstancesLock)
-            {
-                _notDisposedInstances.Add(this);
-            }
+			lock (_notDisposedInstancesLock)
+			{
+				_notDisposedInstances.Add(this);
+			}
 
-            Thread tradeEmitterThread = new Thread(() =>
-            {
-                Stopwatch stopwatch = new Stopwatch();
-                while (IsAlive)
-                {
-                    stopwatch.Restart();
-                    Action();
-                    stopwatch.Stop();
+			Thread tradeEmitterThread = new Thread(() =>
+			{
+				Stopwatch stopwatch = new Stopwatch();
+				while (IsAlive)
+				{
+					stopwatch.Restart();
+					Action();
+					stopwatch.Stop();
 
-                    TimeSpan interval = IntervalFunc();
-                    interval =
-                        stopwatch.Elapsed < interval
-                            ? interval - stopwatch.Elapsed
-                            : TimeSpan.Zero;
+					TimeSpan interval = IntervalFunc();
+					interval =
+						stopwatch.Elapsed < interval
+							? interval - stopwatch.Elapsed
+							: TimeSpan.Zero;
 
-                    _mresInterval.Wait(interval);
+					_mresInterval.Wait(interval);
 
-                }
+				}
 
-                IsDisposed = true;
-                _mresStop.Set();
-            });
+				IsDisposed = true;
+				_mresStop.Set();
+			});
 
-            tradeEmitterThread.Start();
-        }
+			tradeEmitterThread.Start();
+		}
 
 
-        public void Dispose()
-        {
-            IsAlive = false;
-            _mresInterval.Set();
+		public void Dispose()
+		{
+			IsAlive = false;
+			_mresInterval.Set();
 
-            Thread disposeThread = new Thread(() =>
-            {
-                _mresStop.Wait();
-                _mresInterval.Dispose();
-                _mresStop.Dispose();
+			Thread disposeThread = new Thread(() =>
+			{
+				_mresStop.Wait();
+				_mresInterval.Dispose();
+				_mresStop.Dispose();
 
-                lock (_notDisposedInstancesLock)
-                {
-                    _notDisposedInstances.Remove(this);
-                }
-            });
+				lock (_notDisposedInstancesLock)
+				{
+					_notDisposedInstances.Remove(this);
+				}
+			});
 
-            disposeThread.Name = "RecurringAction dispose";
-            disposeThread.IsBackground = true;
-            disposeThread.Start();
+			disposeThread.Name = "RecurringAction dispose";
+			disposeThread.IsBackground = true;
+			disposeThread.Start();
 
-        }
+		}
 
-    }
+	}
 }
