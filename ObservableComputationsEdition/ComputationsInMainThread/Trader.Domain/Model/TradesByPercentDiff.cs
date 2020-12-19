@@ -11,8 +11,7 @@ namespace Trader.Domain.Model
 	{
 		private readonly Group<Trade, int> _group;
 
-		public TradesByPercentDiff([NotNull] Group<Trade, int> @group,
-			ILogger logger, Consumer consumer)
+		public TradesByPercentDiff([NotNull] Group<Trade, int> @group, Consumer consumer)
 		{
 			_group = @group ?? throw new ArgumentNullException(nameof(@group));
 			PercentBand = group.Key;

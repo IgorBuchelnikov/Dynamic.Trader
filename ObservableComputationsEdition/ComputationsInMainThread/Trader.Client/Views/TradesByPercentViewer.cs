@@ -11,12 +11,12 @@ namespace Trader.Client.Views
 		private readonly IDisposable _cleanUp;
 		private readonly ObservableCollection<Domain.Model.TradesByPercentDiff> _data;
 
-		public TradesByPercentViewer(INearToMarketService nearToMarketService, ILogger logger)
+		public TradesByPercentViewer(INearToMarketService nearToMarketService)
 		{
 			Consumer consumer = new Consumer();
 			_data = nearToMarketService.Query(() => 4)
 				.Grouping(trade => (int) Math.Truncate(Math.Abs(trade.PercentFromMarket.Value)))
-				.Selecting(group => new Domain.Model.TradesByPercentDiff(group, logger, consumer))
+				.Selecting(group => new Domain.Model.TradesByPercentDiff(group, consumer))
 				.Ordering(tbpd => tbpd.PercentBand)
 				.For(consumer);
 

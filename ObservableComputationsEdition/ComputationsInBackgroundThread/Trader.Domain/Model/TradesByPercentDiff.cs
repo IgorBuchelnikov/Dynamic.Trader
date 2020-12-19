@@ -12,7 +12,7 @@ namespace Trader.Domain.Model
 		private readonly Group<Trade, int> _group;
 
 		public TradesByPercentDiff([NotNull] Group<Trade, int> @group,
-			ILogger logger, Consumer consumer, OcDispatcher backgroundOcDispatcher, WpfOcDispatcher wpfOcDispatcher)
+			Consumer consumer, OcDispatcher backgroundOcDispatcher, WpfOcDispatcher wpfOcDispatcher)
 		{
 			_group = @group ?? throw new ArgumentNullException(nameof(@group));
 			PercentBand = group.Key;

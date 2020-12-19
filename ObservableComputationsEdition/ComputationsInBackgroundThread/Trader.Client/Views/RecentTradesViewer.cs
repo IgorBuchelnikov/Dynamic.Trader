@@ -13,11 +13,9 @@ namespace Trader.Client.Views
 	{
 		private readonly IDisposable _cleanUp;
 		private readonly ObservableCollection<TradeProxy> _data;
-		private readonly ILogger _logger;
 
-		public RecentTradesViewer(ILogger logger, ITradeService tradeService, OcDispatcher backgroundOcDispatcher, WpfOcDispatcher wpfOcDispatcher)
+		public RecentTradesViewer(ITradeService tradeService, OcDispatcher backgroundOcDispatcher, WpfOcDispatcher wpfOcDispatcher)
 		{
-			_logger = logger;
 			DateTime initialDateTime = DateTime.Now;
 			Consumer consumer = new Consumer();
 			_data = tradeService.All

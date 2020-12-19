@@ -11,12 +11,10 @@ namespace Trader.Domain.Services
 	public class NearToMarketService : INearToMarketService
 	{
 		private readonly ITradeService _tradeService;
-		private readonly ILogger _logger;
 
-		public NearToMarketService([NotNull] ITradeService tradeService , ILogger logger)
+		public NearToMarketService([NotNull] ITradeService tradeService)
 		{
 			_tradeService = tradeService ?? throw new ArgumentNullException(nameof(tradeService));
-			_logger = logger;
 		}
 
 		public ObservableCollection<Trade> Query(Expression<Func<decimal>> percentFromMarket)
