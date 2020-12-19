@@ -6,8 +6,8 @@ using Trader.Domain.Model;
 
 namespace Trader.Domain.Services
 {
-    public interface INearToMarketService
-    {
-	    ObservableCollection<Trade> Query([NotNull] Expression<Func<decimal>> percentFromMarket);
-    }
+	public interface INearToMarketService
+	{
+		ObservableCollection<Trade> Query([NotNull] Expression<Func<decimal>> percentFromMarket);
+	}
 }

@@ -7,18 +7,18 @@ using Trader.Domain.Services;
 
 namespace Trader.Client.Views
 {
-    public class VisibleRowsViewer : AbstractNotifyPropertyChanged
-    {
-        private readonly ObservableCollection<TradeProxy> _data;
+	public class VisibleRowsViewer : AbstractNotifyPropertyChanged
+	{
+		private readonly ObservableCollection<TradeProxy> _data;
 
-        public VisibleRowsViewer(ITradeService tradeService)
-        {
-	        _data = tradeService.All
-	            .Ordering(t => t.Timestamp, ListSortDirection.Descending)
-                .Selecting(trade => new TradeProxy(trade))
-                .CollectionDisposing();
-        }
+		public VisibleRowsViewer(ITradeService tradeService)
+		{
+			_data = tradeService.All
+				.Ordering(t => t.Timestamp, ListSortDirection.Descending)
+				.Selecting(trade => new TradeProxy(trade))
+				.CollectionDisposing();
+		}
 
-        public ObservableCollection<TradeProxy> Data => _data;
-    }
+		public ObservableCollection<TradeProxy> Data => _data;
+	}
 }
