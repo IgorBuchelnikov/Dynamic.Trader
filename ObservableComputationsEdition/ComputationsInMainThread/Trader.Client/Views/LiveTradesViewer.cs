@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Reactive.Disposables;
 using ObservableComputations;
 using Trader.Domain.Infrastucture;
 using Trader.Domain.Model;
@@ -10,13 +11,13 @@ namespace Trader.Client.Views
 {
 	public class LiveTradesViewer : AbstractNotifyPropertyChanged, IDisposable
 	{
-		private readonly IDisposable _cleanUp;
 		private readonly ObservableCollection<TradeProxy> _data;
 		private bool _paused;
-		private Consumer _consumer = new Consumer();
+		private IDisposable _cleanup;
 
-		public LiveTradesViewer(ITradeService tradeService, SearchHints searchHints)
+		public LiveTradesViewer(ITradeService tradeService, SearchHints searchHints, OcDispatcher backgroundOcDispatcher, WpfOcDispatcher wpfOcDispatcher)
 		{
+			Consumer consumer = new Consumer();
 			SearchHints = searchHints;
 
 			_data = tradeService.Live
@@ -28,6 +29,8 @@ namespace Trader.Client.Views
 				.Selecting(t => new TradeProxy(t))
 				.CollectionDisposing()
 				.For(_consumer);
+
+			_cleanup = new CompositeDisposable(searchHints, consumer);
 		}
 
 		public ObservableCollection<TradeProxy> Data => _data;
@@ -44,8 +47,7 @@ namespace Trader.Client.Views
 
 		public void Dispose()
 		{
-			_consumer.Dispose();
-			SearchHints.Dispose();
+			_cleanup.Dispose();
 		}
 
 		#endregion

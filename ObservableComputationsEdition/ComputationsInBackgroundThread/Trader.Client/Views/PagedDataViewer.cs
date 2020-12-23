@@ -22,7 +22,7 @@ namespace Trader.Client.Views
 
 		public PagedDataViewer(ITradeService tradeService, SearchHints searchHints, OcDispatcher backgroundOcDispatcher, WpfOcDispatcher wpfOcDispatcher)
 		{
-		SearchHints = searchHints;
+			SearchHints = searchHints;
 
 			Consumer consumer = new Consumer();
 
