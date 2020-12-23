@@ -97,7 +97,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\..\..\Projects\ObservableComputations\src\ObservableComputations\ObservableComputations.csproj">
+    <ProjectReference Include="..\..\..\..\ObservableComputations\src\ObservableComputations\ObservableComputations.csproj">
       <Project>{19cb0f05-4ce0-4240-a9d1-4a64c1fb4112}</Project>
       <Name>ObservableComputations</Name>
     </ProjectReference>
