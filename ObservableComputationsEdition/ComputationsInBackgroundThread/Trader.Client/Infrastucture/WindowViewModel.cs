@@ -33,7 +33,7 @@ namespace Trader.Client.Infrastucture
 			ShowInGitHubCommand = new Command(()=>   Process.Start( new ProcessStartInfo
 			{
 				FileName = "cmd",
-				Arguments = "/c start https://github.com/RolandPheasant"
+				Arguments = "/c start https://github.com/IgorBuchelnikov/ObservableComputations"
 			}));
 
 			Views

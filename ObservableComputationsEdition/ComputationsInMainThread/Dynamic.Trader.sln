@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trader.Domain", "Trader.Dom
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trader.Client", "Trader.Client\Trader.Client.csproj", "{F6FE68D1-8D23-4BC0-92E0-47F4B7DA7FF6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ObservableComputations", "C:\Projects\ObservableComputations\src\ObservableComputations\ObservableComputations.csproj", "{19CB0F05-4CE0-4240-A9D1-4A64C1FB4112}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ObservableComputations", "C:\Users\mailm\Source\Repos\ObservableComputations\src\ObservableComputations\ObservableComputations.csproj", "{19CB0F05-4CE0-4240-A9D1-4A64C1FB4112}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

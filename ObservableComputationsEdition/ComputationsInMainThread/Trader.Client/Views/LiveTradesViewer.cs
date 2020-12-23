@@ -28,7 +28,7 @@ namespace Trader.Client.Views
 				.Ordering(t => t.Timestamp, ListSortDirection.Descending)
 				.Selecting(t => new TradeProxy(t))
 				.CollectionDisposing()
-				.For(_consumer);
+				.For(consumer);
 
 			_cleanup = new CompositeDisposable(searchHints, consumer);
 		}
