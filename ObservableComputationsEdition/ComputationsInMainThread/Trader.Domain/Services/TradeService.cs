@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Reactive.Disposables;
-using System.Threading;
 using System.Windows.Threading;
 using ObservableComputations;
 using Trader.Domain.Infrastucture;
@@ -77,18 +76,16 @@ namespace Trader.Domain.Services
 				}, DispatcherPriority.Background);
 			}, () => TimeSpan.FromMinutes(1));
 
-
-
 			//log changes
+			OcDispatcher logOcDispatcher = new OcDispatcher();
 			OcDispatcher logPropertyChangedOcDispatcher = new OcDispatcher();
-			logPropertyChangedOcDispatcher.ThreadIsBackground = true;
-			LogChanges(wpfOcDispatcher, logPropertyChangedOcDispatcher);
+			LogChanges(wpfOcDispatcher, logOcDispatcher, logPropertyChangedOcDispatcher);
 
 			_cleanup = new CompositeDisposable(
-				_consumer, tradeEmitter, tradeCloser, logPropertyChangedOcDispatcher, tradeRemover);
+				_consumer, tradeEmitter, tradeCloser, logOcDispatcher, logPropertyChangedOcDispatcher, tradeRemover);
 		}
 
-		private void LogChanges(WpfOcDispatcher wpfOcDispatcher, OcDispatcher logPropertyChangedOcDispatcher)
+		private void LogChanges(WpfOcDispatcher wpfOcDispatcher, OcDispatcher logOcDispatcher, OcDispatcher logPropertyChangedOcDispatcher)
 		{
 			const string messageTemplate = "{0} {1} {2} ({4}). Status = {3}";
 
@@ -103,7 +100,7 @@ namespace Trader.Domain.Services
 						trade.Customer));
 			}
 
-			All.CollectionDispatching(new OcDispatcher(), wpfOcDispatcher)
+			All.CollectionDispatching(logOcDispatcher, wpfOcDispatcher)
 				.CollectionProcessing(
 				(newTrades, processing) =>
 				{

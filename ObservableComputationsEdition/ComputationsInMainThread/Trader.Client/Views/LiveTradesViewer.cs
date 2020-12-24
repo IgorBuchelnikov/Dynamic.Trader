@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Reactive.Disposables;
 using ObservableComputations;
 using Trader.Domain.Infrastucture;
 using Trader.Domain.Model;
@@ -11,16 +10,14 @@ namespace Trader.Client.Views
 {
 	public class LiveTradesViewer : AbstractNotifyPropertyChanged, IDisposable
 	{
-		private readonly ObservableCollection<TradeProxy> _data;
 		private bool _paused;
-		private IDisposable _cleanup;
+		Consumer _consumer = new Consumer();
 
-		public LiveTradesViewer(ITradeService tradeService, SearchHints searchHints, OcDispatcher backgroundOcDispatcher, WpfOcDispatcher wpfOcDispatcher)
+		public LiveTradesViewer(ITradeService tradeService, SearchHints searchHints)
 		{
-			Consumer consumer = new Consumer();
 			SearchHints = searchHints;
 
-			_data = tradeService.Live
+			Data = tradeService.Live
 				.CollectionPausing(() => Paused)
 				.Filtering(t =>
 					t.CurrencyPair.Contains(SearchHints.SearchTextToApply.Value, StringComparison.OrdinalIgnoreCase)
@@ -28,12 +25,10 @@ namespace Trader.Client.Views
 				.Ordering(t => t.Timestamp, ListSortDirection.Descending)
 				.Selecting(t => new TradeProxy(t))
 				.CollectionDisposing()
-				.For(consumer);
-
-			_cleanup = new CompositeDisposable(searchHints, consumer);
+				.For(_consumer);
 		}
 
-		public ObservableCollection<TradeProxy> Data => _data;
+		public ObservableCollection<TradeProxy> Data { get; }
 
 		public SearchHints SearchHints { get; }
 
@@ -43,13 +38,10 @@ namespace Trader.Client.Views
 			set => SetAndRaise(ref _paused, value);
 		}
 
-		#region Implementation of IDisposable
-
 		public void Dispose()
 		{
-			_cleanup.Dispose();
+			_consumer.Dispose();
+			SearchHints.Dispose();
 		}
-
-		#endregion
 	}
 }

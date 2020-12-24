@@ -11,29 +11,26 @@ namespace Trader.Client.Views
 {
 	public class RecentTradesViewer : AbstractNotifyPropertyChanged, IDisposable
 	{
-		private readonly IDisposable _cleanUp;
-		private readonly ObservableCollection<TradeProxy> _data;
+		private readonly Consumer _consumer = new Consumer();
 
 		public RecentTradesViewer(ITradeService tradeService, OcDispatcher backgroundOcDispatcher, WpfOcDispatcher wpfOcDispatcher)
 		{
 			DateTime initialDateTime = DateTime.Now;
-			Consumer consumer = new Consumer();
-			_data = tradeService.All
+
+			Data = tradeService.All
 				.Filtering(t => !t.Expired && t.Timestamp > initialDateTime)
 				.Ordering(t => t.Timestamp, ListSortDirection.Descending)
 				.Selecting(t => new TradeProxy(t))
 				.CollectionDisposing()
 				.CollectionDispatching(wpfOcDispatcher, backgroundOcDispatcher, new DispatcherPriorities(1, 0))
-				.For(consumer);
-
-			_cleanUp = consumer;
+				.For(_consumer);
 		}
 
-		public ObservableCollection<TradeProxy> Data => _data;
+		public ObservableCollection<TradeProxy> Data { get; }
 
 		public void Dispose()
 		{
-			_cleanUp.Dispose();
+			_consumer.Dispose();
 		}
 
 	}

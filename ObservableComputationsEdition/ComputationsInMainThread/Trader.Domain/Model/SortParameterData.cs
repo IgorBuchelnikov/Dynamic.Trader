@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using ObservableComputations;
@@ -8,14 +7,11 @@ namespace Trader.Domain.Model
 {
 	public class SortParameterData : AbstractNotifyPropertyChanged
 	{
-		private readonly IList<SortContainer> _sortItems;
-
 		private SortContainer _selectedItem;
-
 
 		public SortParameterData(ObservableCollection<TradeProxy> sourceData, Consumer consumer)
 		{
-			_sortItems = new ObservableCollection<SortContainer>
+			SortItems = new []
 			{
 				new SortContainer("Customer, Currency Pair", 
 					sourceData
@@ -40,7 +36,7 @@ namespace Trader.Domain.Model
 					.For(consumer))
 			};
 
-			SelectedItem = _sortItems[2];
+			SelectedItem = SortItems[2];
 		}
 
 		public SortContainer SelectedItem
@@ -49,6 +45,6 @@ namespace Trader.Domain.Model
 			set => SetAndRaise(ref _selectedItem, value);
 		}
 
-		public IEnumerable<SortContainer> SortItems => _sortItems;
+		public SortContainer[] SortItems { get; }
 	}
 }

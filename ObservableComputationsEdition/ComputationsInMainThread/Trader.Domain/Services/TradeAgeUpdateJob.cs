@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Threading;
-using ObservableComputations;
 using Trader.Domain.Infrastucture;
 using Trader.Domain.Model;
 

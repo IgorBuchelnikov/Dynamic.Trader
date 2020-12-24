@@ -10,11 +10,10 @@ namespace Trader.Client.Views
 	public class PositionsViewer : IDisposable
 	{
 		private readonly Consumer _consumer = new Consumer();
-		private readonly ObservableCollection<CurrencyPairPosition> _data;
 
 		public PositionsViewer(ITradeService tradeService, OcDispatcher backgroundOcDispatcher, WpfOcDispatcher wpfOcDispatcher)
 		{
-			_data = tradeService.Live
+			Data = tradeService.Live
 				.Grouping(trade => trade.CurrencyPair)
 				.Selecting(group => new CurrencyPairPosition(group, _consumer))
 				.Ordering(p => p.CurrencyPair)
@@ -22,15 +21,11 @@ namespace Trader.Client.Views
 				.For(_consumer);
 		}
 
-		public ObservableCollection<CurrencyPairPosition> Data => _data;
-
-		#region Implementation of IDisposable
+		public ObservableCollection<CurrencyPairPosition> Data { get; }
 
 		public void Dispose()
 		{
 			_consumer.Dispose();
 		}
-
-		#endregion
 	}
 }

@@ -1,23 +1,17 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Reactive.Disposables;
-using System.Threading;
-using System.Windows.Threading;
 using ObservableComputations;
-using Trader.Domain.Infrastucture;
 using Trader.Domain.Model;
 
 namespace Trader.Domain.Services
 {
 	public class TradePriceUpdateJob : IDisposable
 	{
-		private IDisposable _cleanUp;
+		private Consumer _consumer = new Consumer();
 
 		public TradePriceUpdateJob(ITradeService tradeService, IMarketDataService marketDataService)
 		{
-			Consumer consumer = new Consumer();
-
 			tradeService.All
 			.Grouping(t => t.CurrencyPair)
 			.CollectionProcessing(
@@ -58,14 +52,12 @@ namespace Trader.Domain.Services
 					return disposables;
 				})
 			.CollectionDisposing()
-			.For(consumer);
-
-			_cleanUp = new CompositeDisposable(consumer);
+			.For(_consumer);
 		}
 
 		public void Dispose()
 		{
-			_cleanUp.Dispose();
+			_consumer.Dispose();
 		}
 	}
 }

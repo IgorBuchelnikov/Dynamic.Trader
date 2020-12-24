@@ -14,19 +14,16 @@ namespace Trader.Domain.Model
 			Sell = sell;
 			_count = count;
 			Position = new Computing<decimal>(() => Buy.Value - Sell.Value).For(consumer);
-			_countText = new Computing<string>(() => "Order".Pluralise(_count.Value)).For(consumer);
-			_negative = new Computing<bool>(() => Position.Value < 0).For(consumer);
+			CountText = new Computing<string>(() => "Order".Pluralise(_count.Value)).For(consumer);
+			Negative = new Computing<bool>(() => Position.Value < 0).For(consumer);
 		}
 
-		private IReadScalar<bool> _negative;
-		public IReadScalar<bool> Negative => _negative;
-
+		public IReadScalar<bool> Negative { get; }
 
 		public IReadScalar<decimal> Position { get; }
 		public IReadScalar<decimal> Buy { get; }
 		public IReadScalar<decimal> Sell { get; }
 
-		public IReadScalar<string> _countText;
-		public IReadScalar<string> CountText => _countText;
+		public IReadScalar<string> CountText { get; }
 	}
 }

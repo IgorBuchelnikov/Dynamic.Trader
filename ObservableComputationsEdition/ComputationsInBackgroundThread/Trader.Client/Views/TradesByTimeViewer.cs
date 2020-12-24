@@ -11,11 +11,10 @@ namespace Trader.Client.Views
 	public class TradesByTimeViewer : AbstractNotifyPropertyChanged, IDisposable
 	{
 		private readonly Consumer _consumer = new Consumer();
-		private readonly ObservableCollection<TradesByTime> _data;
 
 		public TradesByTimeViewer(ITradeService tradeService, OcDispatcher backgroundOcDispatcher, WpfOcDispatcher wpfOcDispatcher)
 		{
-			_data = tradeService.All
+			Data = tradeService.All
 				.Grouping(trade => trade.Age)
 				.Selecting(group => new TradesByTime(group, _consumer, backgroundOcDispatcher, wpfOcDispatcher))
 				.Ordering(t => t.Period)
@@ -23,12 +22,11 @@ namespace Trader.Client.Views
 				.For(_consumer);
 		}
 
-		public ObservableCollection<TradesByTime> Data => _data;
+		public ObservableCollection<TradesByTime> Data { get; }
 
 		public void Dispose()
 		{
 			_consumer.Dispose();
 		}
-
 	}
 }

@@ -5,11 +5,10 @@ using Trader.Domain.Model;
 
 namespace Trader.Domain.Services
 {
-	public class TradeGenerator : IDisposable
+	public class TradeGenerator
 	{
 		private readonly Random _random = new Random();
 		private readonly IStaticData _staticData;
-		private readonly IDisposable _cleanUp;
 		private IMarketDataService _marketDataService;
 		private int _counter = 0;
 
@@ -36,9 +35,9 @@ namespace Trader.Domain.Services
 					var time = DateTime.Now.AddSeconds(-seconds);
 					return new Trade(id, bank, pair.Code, status, buySell, GererateRandomPrice(pair, buySell), amount, timeStamp: time);
 				}
+
 				return new Trade(id, bank, pair.Code, TradeStatus.Live, buySell, GererateRandomPrice(pair, buySell), amount);
 			}
-
 
 			IEnumerable<Trade> result;
 			result = Enumerable.Range(1, numberToGenerate).Select(_ => NewTrade()).ToArray();
@@ -48,24 +47,14 @@ namespace Trader.Domain.Services
 
 		private decimal GererateRandomPrice(CurrencyPair currencyPair, BuyOrSell buyOrSell)
 		{
-		var price = _marketDataService.Get(currencyPair.Code).Value?.Bid ?? currencyPair.InitialPrice;
+			var price = _marketDataService.Get(currencyPair.Code).Value?.Bid ?? currencyPair.InitialPrice;
 
 			//generate percent price 1-100 pips away from the inital market
 			var pipsFromMarket = _random.Next(1, 100);
 			var adjustment = Math.Round(pipsFromMarket * currencyPair.PipSize, currencyPair.DecimalPlaces);
 			decimal gererateRandomPrice = buyOrSell == BuyOrSell.Sell ? price + adjustment : price - adjustment;
 
-			if (gererateRandomPrice == 0)
-			{
-
-			}
-
 			return gererateRandomPrice;
-		}
-
-		public void Dispose()
-		{
-			_cleanUp.Dispose();
 		}
 	}
 }

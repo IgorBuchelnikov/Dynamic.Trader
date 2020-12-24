@@ -88,22 +88,6 @@ namespace Trader.Client.Infrastucture
 							new Link("View Model","PagedDataViewer.cs", "https://github.com/IgorBuchelnikov/Dynamic.Trader/blob/master/Trader.Client/Views/PagedDataViewer.cs", "https://github.com/IgorBuchelnikov/Dynamic.Trader/blob/master/ObservableComputationsEdition/ComputationsInBackgroundThread/Trader.Client/Views/PagedDataViewer.cs"),
 							new Link("Blog","Sort Filter and Page Data", " http://dynamic-data.org/2015/04/22/dynamically-sort-filter-and-page-data/", null),
 						}),
-
-
-					//new MenuItem("Log Entry",   
-					//   "Visualiser for log files. Also accumulates log entries and handles user interaction.",
-					//	() => OpenRxUI<LogEntryViewer>("Log Entry"),
-					//	 MenuCategory.ReactiveUi
-					//	,new []
-					//{
-					//	new Link("View Model", "LogEntryViewer.cs","https://github.com/IgorBuchelnikov/Dynamic.Trader/blob/master/Trader.Client/Views/LogEntryViewer.cs"), 
-					//	new Link("Log Entry Proxy", "LogEntryProxy.cs","https://github.com/IgorBuchelnikov/Dynamic.Trader/blob/master/Trader.Client/Infrastucture/LogEntryProxy.cs"), 
-					//	new Link("Service", "LogEntryService.cs","https://github.com/IgorBuchelnikov/Dynamic.Trader/blob/master/Trader.Domain/Services/LogEntryService.cs"), 
-					//	new Link("Log Appender", "ReactiveLogAppender.cs","https://github.com/IgorBuchelnikov/Dynamic.Trader/blob/master/Trader.Domain/Infrastucture/ReactiveLogAppender.cs"), 
-					//	new Link("View", "LogEntryView.xaml","https://github.com/IgorBuchelnikov/Dynamic.Trader/blob/master/Trader.Client/Views/LogEntryView.xaml"),
-			 
-		 
-					//}),
 			};
 		}
 

@@ -1,6 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Linq;
-using System.Threading;
 using System.Windows.Threading;
 using MahApps.Metro.Controls;
 using Trader.Domain.Infrastucture;

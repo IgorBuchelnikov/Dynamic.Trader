@@ -1,33 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Linq;
-using System.Windows.Threading;
 using ObservableComputations;
 using Trader.Domain.Infrastucture;
 using Trader.Domain.Model;
-using Dispatcher = System.Windows.Threading.Dispatcher;
 
 namespace Trader.Domain.Services
 {
 	public class MarketDataService : IMarketDataService
 	{
-	private readonly Dictionary<string, IReadScalar<MarketData>> _marketDataObservables = new Dictionary<string, IReadScalar<MarketData>>();
-	private OcDispatcher _backgroundOcDispatcher;
+		private readonly Dictionary<string, IReadScalar<MarketData>> _marketDataObservables = new Dictionary<string, IReadScalar<MarketData>>();
+		private OcDispatcher _backgroundOcDispatcher;
 
 		public MarketDataService(IStaticData staticData, OcDispatcher backgroundOcDispatcher)
 		{
 			_backgroundOcDispatcher = backgroundOcDispatcher;
 
-			foreach (var item in staticData.CurrencyPairs)
-			{
-				_marketDataObservables[item.Code] = CreateObservableMarketData(item);
-			}
+			foreach (var item in staticData.CurrencyPairs)			
+				_marketDataObservables[item.Code] = CreateObservableMarketData(item);	
 		}
 
 		private IReadScalar<MarketData> CreateObservableMarketData(CurrencyPair currencyPair)
 		{
-		return new MarketDataObsevable(currencyPair, _backgroundOcDispatcher);
+			return new MarketDataObsevable(currencyPair, _backgroundOcDispatcher);
 		}
 
 		public IReadScalar<MarketData> Get(string currencyPair)
@@ -41,24 +36,24 @@ namespace Trader.Domain.Services
 
 		private class MarketDataObsevable : AbstractNotifyPropertyChanged, IReadScalar<MarketData>, IDisposable
 		{
-		private MarketData _value;
+			private MarketData _value;
 			private RecurringAction _recurringAction;
 
-		public MarketDataObsevable(CurrencyPair currencyPair, OcDispatcher backgroundOcDispatcher)
-		{
-		var spread = currencyPair.DefaultSpread;
-		var midRate = currencyPair.InitialPrice;
-		var bid = midRate - (spread * currencyPair.PipSize);
-		var offer = midRate + (spread * currencyPair.PipSize);
-		var initial = new MarketData(currencyPair.Code, bid, offer);
+			public MarketDataObsevable(CurrencyPair currencyPair, OcDispatcher backgroundOcDispatcher)
+			{
+				var spread = currencyPair.DefaultSpread;
+				var midRate = currencyPair.InitialPrice;
+				var bid = midRate - (spread * currencyPair.PipSize);
+				var offer = midRate + (spread * currencyPair.PipSize);
+				var initial = new MarketData(currencyPair.Code, bid, offer);
 
-		var currentPrice = initial;
+				var currentPrice = initial;
 
-		Value = currentPrice;
+				Value = currentPrice;
 
-		var random = new Random();
+				var random = new Random();
 
-		//for a given period, move prices by up to 5 pips
+				//for a given period, move prices by up to 5 pips
 				_recurringAction = new RecurringAction(() =>
 				{
 					int pips = random.Next(1, 5);
@@ -71,19 +66,18 @@ namespace Trader.Domain.Services
 					backgroundOcDispatcher.Invoke(() =>									   
 						Value = marketData);
 				}, () => TimeSpan.FromSeconds(1 / (double)currencyPair.TickFrequency));
-		}
+			}
 
-		public MarketData Value
-		{
-		get => _value;
-		set => SetAndRaise(ref _value, value);
-		}
+			public MarketData Value
+			{
+				get => _value;
+				set => SetAndRaise(ref _value, value);
+			}
 
 			public void Dispose()
 			{
 				_recurringAction.Dispose();
 			}
-
 		}
 
 		public void Dispose()
@@ -92,6 +86,5 @@ namespace Trader.Domain.Services
 				in _marketDataObservables.Values.Cast<MarketDataObsevable>())
 				marketDataObsevable.Dispose();
 		}
-
 	}
 }

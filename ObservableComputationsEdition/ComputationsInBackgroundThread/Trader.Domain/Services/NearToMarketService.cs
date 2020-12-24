@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Linq.Expressions;
 using ObservableComputations;
 using TradeExample.Annotations;
-using Trader.Domain.Infrastucture;
 using Trader.Domain.Model;
 
 namespace Trader.Domain.Services
@@ -26,14 +25,14 @@ namespace Trader.Domain.Services
 
 		private Expression<Func<Trade, bool>> ConstructPredicate(Expression<Func<decimal>> percentFromMarket)
 		{
-		var tradeParameter = Expression.Parameter(typeof(Trade));
-		var tradePercentFromMarket = Expression.Property(tradeParameter, nameof(Trade.PercentFromMarket));
-		var tradePercentFromMarketValue = Expression.Property(tradePercentFromMarket, nameof(Computing<decimal>.Value));
-		var mathAbsMethodInfo = typeof(Math).GetMethod(nameof(Math.Abs), new[] {typeof(decimal)});
-		var absTradePercentFromMarketValue = Expression.Call(null, mathAbsMethodInfo, tradePercentFromMarketValue);
+			var tradeParameter = Expression.Parameter(typeof(Trade));
+			var tradePercentFromMarket = Expression.Property(tradeParameter, nameof(Trade.PercentFromMarket));
+			var tradePercentFromMarketValue = Expression.Property(tradePercentFromMarket, nameof(Computing<decimal>.Value));
+			var mathAbsMethodInfo = typeof(Math).GetMethod(nameof(Math.Abs), new[] {typeof(decimal)});
+			var absTradePercentFromMarketValue = Expression.Call(null, mathAbsMethodInfo, tradePercentFromMarketValue);
 
-		return Expression.Lambda<Func<Trade, bool>>(
-		Expression.LessThanOrEqual(absTradePercentFromMarketValue, percentFromMarket.Body), tradeParameter);
+			return Expression.Lambda<Func<Trade, bool>>(
+			Expression.LessThanOrEqual(absTradePercentFromMarketValue, percentFromMarket.Body), tradeParameter);
 		}
 	}
 }

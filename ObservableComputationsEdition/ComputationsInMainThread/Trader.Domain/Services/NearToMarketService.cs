@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Linq.Expressions;
 using ObservableComputations;
 using TradeExample.Annotations;
-using Trader.Domain.Infrastucture;
 using Trader.Domain.Model;
 
 namespace Trader.Domain.Services

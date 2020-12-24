@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Infrastucture\AbstractNotifyPropertyChanged.cs" />
+    <Compile Include="Infrastucture\ExtentionMethods.cs" />
     <Compile Include="Infrastucture\RecurringAction.cs" />
     <Compile Include="Infrastucture\ThrottlingDispatcher.cs" />
     <Compile Include="Infrastucture\Extensions.cs" />

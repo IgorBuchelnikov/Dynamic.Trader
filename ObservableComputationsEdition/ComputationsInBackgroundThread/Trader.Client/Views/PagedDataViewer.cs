@@ -18,19 +18,17 @@ namespace Trader.Client.Views
 		public ICommand NextPageCommand => _nextPageCommand;
 		public ICommand PreviousPageCommand => _previousPageCommand;
 
-		private IDisposable _cleanUp;
+		private Consumer _consumer = new Consumer();
 
 		public PagedDataViewer(ITradeService tradeService, SearchHints searchHints, OcDispatcher backgroundOcDispatcher, WpfOcDispatcher wpfOcDispatcher)
 		{
 			SearchHints = searchHints;
 
-			Consumer consumer = new Consumer();
-
 			SortParameters = new SortParameterData(
 				tradeService.Live
 				.Selecting(t => new TradeProxy(t))
 				.CollectionDisposing(), 
-				consumer);
+				_consumer);
 
 			AllData =
 				new Computing<ObservableCollection<TradeProxy>>(
@@ -41,12 +39,11 @@ namespace Trader.Client.Views
 				.CollectionDispatching(wpfOcDispatcher, backgroundOcDispatcher, new DispatcherPriorities(1, 0))
 ;
 
-			Data = AllData.Paging(25, 1).For(consumer);
+			Data = AllData.Paging(25, 1).For(_consumer);
 
 			_nextPageCommand = new Command(() => Data.CurrentPage = Data.CurrentPage + 1, () => Data.CurrentPage < Data.PageCount);
 			_previousPageCommand = new Command(() => Data.CurrentPage = Data.CurrentPage - 1, () => Data.CurrentPage > 1);
 
-			_cleanUp = new CompositeDisposable(consumer, searchHints);
 		}
 
 		public SearchHints SearchHints { get; }
@@ -59,7 +56,8 @@ namespace Trader.Client.Views
 
 		public void Dispose()
 		{
-			_cleanUp.Dispose();
+			_consumer.Dispose();
+			SearchHints.Dispose();
 		}
 	}
 }

@@ -5,11 +5,10 @@ using Trader.Domain.Model;
 
 namespace Trader.Domain.Services
 {
-	public class TradeGenerator : IDisposable
+	public class TradeGenerator
 	{
 		private readonly Random _random = new Random();
 		private readonly IStaticData _staticData;
-		private readonly IDisposable _cleanUp;
 		private IMarketDataService _marketDataService;
 		private int _counter = 0;
 
@@ -56,11 +55,6 @@ namespace Trader.Domain.Services
 			decimal gererateRandomPrice = buyOrSell == BuyOrSell.Sell ? price + adjustment : price - adjustment;
 
 			return gererateRandomPrice;
-		}
-
-		public void Dispose()
-		{
-			_cleanUp.Dispose();
 		}
 	}
 }

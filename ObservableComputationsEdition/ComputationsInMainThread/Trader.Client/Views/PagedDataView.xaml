@@ -9,7 +9,7 @@
 	xmlns:views="clr-namespace:Trader.Client.Views"
 	xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
 	d:DataContext="{d:DesignInstance views:PagedDataViewer,
-									 IsDesignTimeCreatable=False}"
+	                                 IsDesignTimeCreatable=False}"
 	mc:Ignorable="d">
 	<UserControl.Resources>
 
@@ -76,7 +76,8 @@
 			VerticalAlignment="Center"
 			Text="{Binding AllData.Count, StringFormat='The are \{0} trades matching filter'}" />
 
-		<ListView x:Name="ListView"
+		<ListView
+			x:Name="ListView"
 			Grid.Row="1"
 			Grid.Column="0"
 			Grid.ColumnSpan="2"

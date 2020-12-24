@@ -182,10 +182,6 @@
     <Compile Include="Views\TradesGrid.xaml.cs">
       <DependentUpon>TradesGrid.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\VisibleRowsView.xaml.cs">
-      <DependentUpon>VisibleRowsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\VisibleRowsViewer.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -244,10 +240,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\TradesGrid.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\VisibleRowsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

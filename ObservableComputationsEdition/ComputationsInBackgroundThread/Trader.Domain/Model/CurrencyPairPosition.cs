@@ -12,18 +12,21 @@ namespace Trader.Domain.Model
 		{
 			CurrencyPair = tradesByCurrencyPair.Key;
 			_position = new TradesPosition(
-			tradesByCurrencyPair
-			.Filtering(trade => trade.BuyOrSell == BuyOrSell.Buy)
-			.Selecting(trade => trade.Amount)
-			.Summarizing()
-					.For(consumer),
-			tradesByCurrencyPair
-			.Filtering(trade => trade.BuyOrSell == BuyOrSell.Sell)
-			.Selecting(trade => trade.Amount)
-			.Summarizing()
-					.For(consumer),
-			new Computing<int>(() => tradesByCurrencyPair.Count)
-					.For(consumer),
+				tradesByCurrencyPair
+				.Filtering(trade => trade.BuyOrSell == BuyOrSell.Buy)
+				.Selecting(trade => trade.Amount)
+				.Summarizing()
+				.For(consumer),
+
+				tradesByCurrencyPair
+				.Filtering(trade => trade.BuyOrSell == BuyOrSell.Sell)
+				.Selecting(trade => trade.Amount)
+				.Summarizing()
+				.For(consumer),
+
+				new Computing<int>(() => tradesByCurrencyPair.Count)
+				.For(consumer),
+
 				consumer);
 		}
 

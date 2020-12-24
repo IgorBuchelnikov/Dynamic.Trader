@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using ObservableComputations;
 using TradeExample.Annotations;
-using Trader.Domain.Infrastucture;
 
 namespace Trader.Domain.Model
 {

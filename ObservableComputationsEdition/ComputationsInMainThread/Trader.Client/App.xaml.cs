@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Threading;
-using ObservableComputations;
 using StructureMap;
 using Trader.Client.Infrastucture;
 using Trader.Domain.Infrastucture;
@@ -20,10 +19,9 @@ namespace Trader.Client
 		/// <exception cref="T:System.InvalidOperationException">More than one instance of the <see cref="T:System.Windows.Application" /> class is created per <see cref="T:System.AppDomain" />.</exception>
 		public App()
 		{
-			//ObservableComputations.Configuration.SaveInstantiatingStackTrace = true;
+			ObservableComputations.Configuration.SaveInstantiatingStackTrace = true;
 			ObservableComputations.Configuration.EventUnsubscriberThreadsCount = 4;
 			AppDomain.CurrentDomain.AssemblyLoad += CurrentDomain_AssemblyLoad;
-
 
 			ShutdownMode = ShutdownMode.OnLastWindowClose;
 		}
