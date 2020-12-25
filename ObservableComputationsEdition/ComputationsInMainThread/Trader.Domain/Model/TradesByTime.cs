@@ -6,16 +6,14 @@ using TradeExample.Annotations;
 
 namespace Trader.Domain.Model
 {
-	public class TradesByTime : IEquatable<TradesByTime>
+	public class TradesByTime 
 	{
-		private readonly ObservableCollection<TradeProxy> _data;
-
 		public TradesByTime([NotNull] Group<Trade, TimePeriod> @group,
 			Consumer consumer)
 		{
 			Period = group?.Key ?? throw new ArgumentNullException(nameof(group));
 
-			_data = group
+			Data = group
 				.Ordering(t => t.Timestamp, ListSortDirection.Descending)
 				.Selecting(trade => new TradeProxy(trade))
 				.CollectionDisposing()
@@ -44,40 +42,6 @@ namespace Trader.Domain.Model
 			}
 		}
 
-		public ObservableCollection<TradeProxy> Data => _data;
-
-		#region Equality
-
-		public bool Equals(TradesByTime other)
-		{
-			if (ReferenceEquals(null, other)) return false;
-			if (ReferenceEquals(this, other)) return true;
-			return Period == other.Period;
-		}
-
-		public override bool Equals(object obj)
-		{
-			if (ReferenceEquals(null, obj)) return false;
-			if (ReferenceEquals(this, obj)) return true;
-			if (obj.GetType() != GetType()) return false;
-			return Equals((TradesByTime) obj);
-		}
-
-		public override int GetHashCode()
-		{
-			return (int) Period;
-		}
-
-		public static bool operator ==(TradesByTime left, TradesByTime right)
-		{
-			return Equals(left, right);
-		}
-
-		public static bool operator !=(TradesByTime left, TradesByTime right)
-		{
-			return !Equals(left, right);
-		}
-
-		#endregion
+		public ObservableCollection<TradeProxy> Data { get; }
 	}
 }

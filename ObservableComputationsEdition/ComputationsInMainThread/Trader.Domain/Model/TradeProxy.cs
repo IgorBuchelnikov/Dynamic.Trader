@@ -9,17 +9,16 @@ namespace Trader.Domain.Model
 	{
 		private readonly IDisposable _cleanUp;
 		private readonly long _id;
-		private readonly Trade _trade;
 		private decimal _marketPrice;
 		private decimal _pcFromMarketPrice;
 		private bool _recent;
 
-		public Trade Trade => _trade;
+		public Trade Trade { get; }
 
 		public TradeProxy(Trade trade)
 		{
 			_id = trade.Id;
-			_trade = trade;
+			Trade = trade;
 
 			var isRecent = DateTime.Now.Subtract(trade.Timestamp).TotalSeconds < 2;
 			var recentIndicator = Disposable.Empty;

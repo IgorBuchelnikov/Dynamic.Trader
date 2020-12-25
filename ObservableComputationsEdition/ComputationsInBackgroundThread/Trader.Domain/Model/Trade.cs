@@ -4,10 +4,9 @@ using Trader.Domain.Infrastucture;
 
 namespace Trader.Domain.Model
 {
-	public class Trade: AbstractNotifyPropertyChanged, IDisposable, IEquatable<Trade>
+	public class Trade: AbstractNotifyPropertyChanged, IDisposable
 	{
 		private decimal _marketPrice;
-		private Computing<decimal> _percentFromMarket;
 		private TradeStatus _status;
 		private TimePeriod _age;
 		private bool _expired;
@@ -24,7 +23,7 @@ namespace Trader.Domain.Model
 		set => SetAndRaise(ref _marketPrice, value);
 		}
 
-		public Computing<decimal> PercentFromMarket => _percentFromMarket;
+		public Computing<decimal> PercentFromMarket { get; }
 
 		public decimal Amount { get; }
 		public BuyOrSell BuyOrSell { get; }
@@ -53,7 +52,7 @@ namespace Trader.Domain.Model
 
 		private Trade()
 		{
-		_percentFromMarket = new Computing<decimal>(() => 
+		PercentFromMarket = new Computing<decimal>(() => 
 		MarketPrice != 0 
 		? Math.Round(((TradePrice - MarketPrice) / MarketPrice) * 100, 4)
 		: 0)
@@ -85,40 +84,6 @@ namespace Trader.Domain.Model
 			BuyOrSell = buyOrSell;
 			Timestamp =timeStamp ?? DateTime.Now;
 		}
-
-		#region Equality Members
-
-		public bool Equals(Trade other)
-		{
-			if (ReferenceEquals(null, other)) return false;
-			if (ReferenceEquals(this, other)) return true;
-			return Id == other.Id;
-		}
-
-		public override bool Equals(object obj)
-		{
-			if (ReferenceEquals(null, obj)) return false;
-			if (ReferenceEquals(this, obj)) return true;
-			if (obj.GetType() != this.GetType()) return false;
-			return Equals((Trade) obj);
-		}
-
-		public override int GetHashCode()
-		{
-			return Id.GetHashCode();
-		}
-
-		public static bool operator ==(Trade left, Trade right)
-		{
-			return Equals(left, right);
-		}
-
-		public static bool operator !=(Trade left, Trade right)
-		{
-			return !Equals(left, right);
-		}
-
-		#endregion
 
 		public void Dispose()
 		{

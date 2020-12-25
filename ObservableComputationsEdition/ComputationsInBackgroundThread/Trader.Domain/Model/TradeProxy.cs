@@ -9,17 +9,16 @@ namespace Trader.Domain.Model
 	{
 		private readonly IDisposable _cleanUp;
 		private readonly long _id;
-		private readonly Trade _trade;
 		private decimal _marketPrice;
 		private decimal _pcFromMarketPrice;
 		private bool _recent;
 
-		public Trade Trade => _trade;
+		public Trade Trade { get; }
 
 		public TradeProxy(Trade trade)
 		{
 			_id = trade.Id;
-			_trade = trade;
+			Trade = trade;
 
 			var isRecent = DateTime.Now.Subtract(trade.Timestamp).TotalSeconds < 2;
 			var recentIndicator = Disposable.Empty;
@@ -48,39 +47,5 @@ namespace Trader.Domain.Model
 		{
 			_cleanUp.Dispose();
 		}
-
-		//#region Equaility Members
-
-		//public bool Equals(TradeProxy other)
-		//{
-		//	if (ReferenceEquals(null, other)) return false;
-		//	if (ReferenceEquals(this, other)) return true;
-		//	return _id == other._id;
-		//}
-
-		//public override bool Equals(object obj)
-		//{
-		//	if (ReferenceEquals(null, obj)) return false;
-		//	if (ReferenceEquals(this, obj)) return true;
-		//	if (obj.GetType() != GetType()) return false;
-		//	return Equals((TradeProxy) obj);
-		//}
-
-		//public override int GetHashCode()
-		//{
-		//	return _id.GetHashCode();
-		//}
-
-		//public static bool operator ==(TradeProxy left, TradeProxy right)
-		//{
-		//	return Equals(left, right);
-		//}
-
-		//public static bool operator !=(TradeProxy left, TradeProxy right)
-		//{
-		//	return !Equals(left, right);
-		//}
-
-		//#endregion
 	}
 }

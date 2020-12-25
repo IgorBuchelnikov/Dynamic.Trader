@@ -15,8 +15,6 @@ namespace Trader.Domain.Services
 		private readonly ILogger _logger;
 		private readonly TradeGenerator _tradeGenerator;
 		private readonly Dispatcher _dispatcher;
-		private readonly ObservableCollection<Trade> _all;
-		private readonly ObservableCollection<Trade> _live;
 		private readonly IDisposable _cleanup;
 		private readonly Consumer _consumer = new Consumer();
 		private bool _disposed;
@@ -27,8 +25,8 @@ namespace Trader.Domain.Services
 			_tradeGenerator = tradeGenerator;
 			_dispatcher = dispatcher;
 
-			_all = new ObservableCollection<Trade>(_tradeGenerator.Generate(5_000, true));
-			_live = _all.Filtering(t => t.Status == TradeStatus.Live).For(_consumer);
+			All = new ObservableCollection<Trade>(_tradeGenerator.Generate(5_000, true));
+			Live = All.Filtering(t => t.Status == TradeStatus.Live).For(_consumer);
 
 			var random = new Random();
 			TimeSpan RandomInterval() => TimeSpan.FromMilliseconds(random.Next(2500, 5000));
@@ -40,7 +38,7 @@ namespace Trader.Domain.Services
 				var trades = _tradeGenerator.Generate(number);
 
 				foreach (Trade trade in trades)
-					_dispatcher.Invoke(() => _all.Add(trade), DispatcherPriority.Background);
+					_dispatcher.Invoke(() => All.Add(trade), DispatcherPriority.Background);
 			}, RandomInterval);
 
 			List<Trade> closedTrades = new List<Trade>();
@@ -51,7 +49,7 @@ namespace Trader.Domain.Services
 				for (int i = 1; i <= number; i++)
 					_dispatcher.Invoke(() =>
 					{
-						Trade trade = _all[random.Next(0, _all.Count - 1)];
+						Trade trade = All[random.Next(0, All.Count - 1)];
 						trade.Status = TradeStatus.Closed;
 						trade.CloseTimestamp = DateTime.Now;
 						closedTrades.Add(trade);
@@ -69,7 +67,7 @@ namespace Trader.Domain.Services
 						Trade closedTrade = closedTrades[index];
 						if ((DateTime.Now - closedTrade.CloseTimestamp).Minutes >= 1)
 						{
-							_all.Remove(closedTrade);
+							All.Remove(closedTrade);
 							closedTrades.RemoveAt(index);
 						}
 					}
@@ -132,8 +130,9 @@ namespace Trader.Domain.Services
 				}).For(_consumer);
 		}
 
-		public ObservableCollection<Trade> All => _all;
-		public ObservableCollection<Trade> Live => _live;
+		public ObservableCollection<Trade> All { get; }
+
+		public ObservableCollection<Trade> Live { get; }
 
 		public void Dispose()
 		{
