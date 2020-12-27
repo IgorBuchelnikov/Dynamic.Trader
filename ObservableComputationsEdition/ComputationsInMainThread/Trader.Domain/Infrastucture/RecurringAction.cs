@@ -50,10 +50,10 @@ namespace Trader.Domain.Infrastucture
 					stopwatch.Stop();
 
 					TimeSpan interval = IntervalFunc();
-					interval =
-						stopwatch.Elapsed < interval
-							? interval - stopwatch.Elapsed
-							: TimeSpan.Zero;
+					//interval =
+					//	stopwatch.Elapsed < interval
+					//		? interval - stopwatch.Elapsed
+					//		: TimeSpan.Zero;
 
 					_mresInterval.Wait(interval);
 

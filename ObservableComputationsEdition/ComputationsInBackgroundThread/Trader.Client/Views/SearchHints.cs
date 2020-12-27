@@ -7,7 +7,7 @@ namespace Trader.Client.Views
 	public class SearchHints : AbstractNotifyPropertyChanged, IDisposable
 	{
 		private string _searchText = String.Empty;
-		private Computing<string> _searchTextToApply;
+		private readonly Computing<string> _searchTextToApply;
 		private readonly Consumer _consumer = new Consumer();
 
 		public SearchHints(UserInputThrottlingOcDispatcher userInputThrottlingOcDispatcher)
@@ -26,10 +26,7 @@ namespace Trader.Client.Views
 			set => SetAndRaise(ref _searchText, value);
 		}
 
-		public IReadScalar<string> SearchTextToApply
-		{
-		get => _searchTextToApply;
-		}
+		public IReadScalar<string> SearchTextToApply => _searchTextToApply;
 
 		public void Dispose()
 		{

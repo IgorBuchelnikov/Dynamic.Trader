@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Trader.Domain.Model
+﻿namespace Trader.Domain.Model
 {
 	public class MarketData
 	{
@@ -47,16 +45,6 @@ namespace Trader.Domain.Model
 		public static bool operator <(MarketData left, MarketData right)
 		{
 			return left.Bid < right.Bid;
-		}
-
-		public static bool operator ==(MarketData left, MarketData right)
-		{
-			return left.Equals(right);
-		}
-
-		public static bool operator !=(MarketData left, MarketData right)
-		{
-			return !left.Equals(right);
 		}
 
 		public override string ToString()

@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Windows.Threading;
 using ObservableComputations;
 
 namespace Trader.Domain.Infrastucture
 {
 	public class WpfOcDispatcher : IOcDispatcher
 	{
-		private System.Windows.Threading.Dispatcher _dispatcher;
+		private readonly Dispatcher _dispatcher;
 
-		public WpfOcDispatcher(System.Windows.Threading.Dispatcher dispatcher)
+		public WpfOcDispatcher(Dispatcher dispatcher)
 		{
 			_dispatcher = dispatcher;
 		}

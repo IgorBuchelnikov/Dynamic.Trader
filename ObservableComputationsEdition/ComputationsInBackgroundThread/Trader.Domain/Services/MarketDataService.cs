@@ -10,7 +10,7 @@ namespace Trader.Domain.Services
 	public class MarketDataService : IMarketDataService
 	{
 		private readonly Dictionary<string, IReadScalar<MarketData>> _marketDataObservables = new Dictionary<string, IReadScalar<MarketData>>();
-		private OcDispatcher _backgroundOcDispatcher;
+		private readonly OcDispatcher _backgroundOcDispatcher;
 
 		public MarketDataService(IStaticData staticData, OcDispatcher backgroundOcDispatcher)
 		{
@@ -22,7 +22,7 @@ namespace Trader.Domain.Services
 
 		private IReadScalar<MarketData> CreateObservableMarketData(CurrencyPair currencyPair)
 		{
-			return new MarketDataObsevable(currencyPair, _backgroundOcDispatcher);
+			return new MarketDataObservable(currencyPair, _backgroundOcDispatcher);
 		}
 
 		public IReadScalar<MarketData> Get(string currencyPair)
@@ -34,12 +34,12 @@ namespace Trader.Domain.Services
 			throw new Exception(currencyPair + " is an unknown currency pair");		
 		}
 
-		private class MarketDataObsevable : AbstractNotifyPropertyChanged, IReadScalar<MarketData>, IDisposable
+		private class MarketDataObservable : AbstractNotifyPropertyChanged, IReadScalar<MarketData>, IDisposable
 		{
 			private MarketData _value;
-			private RecurringAction _recurringAction;
+			private readonly RecurringAction _recurringAction;
 
-			public MarketDataObsevable(CurrencyPair currencyPair, OcDispatcher backgroundOcDispatcher)
+			public MarketDataObservable(CurrencyPair currencyPair, OcDispatcher backgroundOcDispatcher)
 			{
 				var spread = currencyPair.DefaultSpread;
 				var midRate = currencyPair.InitialPrice;
@@ -82,9 +82,9 @@ namespace Trader.Domain.Services
 
 		public void Dispose()
 		{
-			foreach (MarketDataObsevable marketDataObsevable 
-				in _marketDataObservables.Values.Cast<MarketDataObsevable>())
-				marketDataObsevable.Dispose();
+			foreach (MarketDataObservable marketDataObservable 
+				in _marketDataObservables.Values.Cast<MarketDataObservable>())
+				marketDataObservable.Dispose();
 		}
 	}
 }

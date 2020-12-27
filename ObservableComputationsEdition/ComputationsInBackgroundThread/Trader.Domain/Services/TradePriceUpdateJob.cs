@@ -10,7 +10,7 @@ namespace Trader.Domain.Services
 {
 	public class TradePriceUpdateJob : IDisposable
 	{
-		private Consumer _consumer = new Consumer();
+		private readonly Consumer _consumer = new Consumer();
 
 		public TradePriceUpdateJob(ITradeService tradeService, IMarketDataService marketDataService, Dispatcher dispatcher)
 		{
@@ -30,7 +30,7 @@ namespace Trader.Domain.Services
 
 						//DataHasChanged
 						tradesGroup.CollectionProcessing(
-							(newTrades, @this1) =>
+							(newTrades, this1) =>
 							{
 								Trade[] newTradesCopy = newTrades.ToArray();
 							  

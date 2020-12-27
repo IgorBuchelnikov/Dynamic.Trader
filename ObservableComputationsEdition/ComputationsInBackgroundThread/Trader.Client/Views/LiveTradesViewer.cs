@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Reactive.Disposables;
 using ObservableComputations;
 using Trader.Domain.Infrastucture;
 using Trader.Domain.Model;
@@ -12,7 +11,7 @@ namespace Trader.Client.Views
 	public class LiveTradesViewer : AbstractNotifyPropertyChanged, IDisposable
 	{
 		private bool _paused;
-		private Consumer _consumer = new Consumer();
+		private readonly Consumer _consumer = new Consumer();
 
 		public LiveTradesViewer(ITradeService tradeService, SearchHints searchHints, OcDispatcher backgroundOcDispatcher, WpfOcDispatcher wpfOcDispatcher)
 		{

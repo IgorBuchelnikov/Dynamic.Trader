@@ -24,7 +24,7 @@ namespace Trader.Domain.Model
 		public IReadScalar<decimal> Buy { get; }
 		public IReadScalar<decimal> Sell { get; }
 
-		public IReadScalar<string> _countText;
+		public readonly IReadScalar<string> _countText;
 		public IReadScalar<string> CountText => _countText;
 	}
 }

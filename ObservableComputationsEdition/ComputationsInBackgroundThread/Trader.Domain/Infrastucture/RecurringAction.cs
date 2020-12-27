@@ -8,8 +8,8 @@ namespace Trader.Domain.Infrastucture
 {
 	public class RecurringAction : IDisposable
 	{
-		public Action Action { get; private set; }
-		public Func<TimeSpan> IntervalFunc { get; private set; }
+		public Action Action { get; }
+		public Func<TimeSpan> IntervalFunc { get; }
 		public  bool IsAlive  { get; private set; }
 		public  bool IsDisposed  { get; private set; }
 		private ManualResetEventSlim _mresInterval = new ManualResetEventSlim(false);
@@ -50,10 +50,10 @@ namespace Trader.Domain.Infrastucture
 					stopwatch.Stop();
 
 					TimeSpan interval = IntervalFunc();
-					interval =
-						stopwatch.Elapsed < interval
-							? interval - stopwatch.Elapsed
-							: TimeSpan.Zero;
+					//interval =
+					//	stopwatch.Elapsed < interval
+					//		? interval - stopwatch.Elapsed
+					//		: TimeSpan.Zero;
 
 					_mresInterval.Wait(interval);
 

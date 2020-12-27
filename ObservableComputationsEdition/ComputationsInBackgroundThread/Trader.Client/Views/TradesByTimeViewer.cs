@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Reactive.Disposables;
 using ObservableComputations;
 using Trader.Domain.Infrastucture;
 using Trader.Domain.Model;

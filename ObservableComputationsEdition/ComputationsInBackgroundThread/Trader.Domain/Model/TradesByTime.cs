@@ -9,7 +9,7 @@ namespace Trader.Domain.Model
 {
 	public class TradesByTime
 	{
-		public TradesByTime([NotNull] Group<Trade, TimePeriod> @group,
+		public TradesByTime([NotNull] Group<Trade, TimePeriod> group,
 			Consumer consumer, OcDispatcher backgroundOcDispatcher, WpfOcDispatcher wpfOcDispatcher)
 		{
 			Period = group?.Key ?? throw new ArgumentNullException(nameof(group));
@@ -35,7 +35,6 @@ namespace Trader.Domain.Model
 						return "Last Minute";
 					case TimePeriod.LastHour:
 						return "Last Hour";
-						;
 					case TimePeriod.Older:
 						return "Old";
 					default:

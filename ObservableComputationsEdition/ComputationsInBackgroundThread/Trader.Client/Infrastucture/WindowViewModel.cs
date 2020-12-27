@@ -13,7 +13,6 @@ namespace Trader.Client.Infrastucture
 	{
 		private readonly IObjectProvider _objectProvider;
 		private readonly Command _showMenuCommand;
-		private readonly IDisposable _cleanUp;
 		private ViewContainer _selected;
 		private readonly Consumer _consumer = new Consumer();
 

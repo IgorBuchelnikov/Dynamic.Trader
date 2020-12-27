@@ -8,7 +8,7 @@ namespace Trader.Domain.Services
 {
 	public class TradePriceUpdateJob : IDisposable
 	{
-		private Consumer _consumer = new Consumer();
+		private readonly Consumer _consumer = new Consumer();
 
 		public TradePriceUpdateJob(ITradeService tradeService, IMarketDataService marketDataService)
 		{

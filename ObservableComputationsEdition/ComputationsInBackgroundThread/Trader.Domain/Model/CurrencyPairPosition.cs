@@ -1,4 +1,3 @@
-using System;
 using ObservableComputations;
 using Trader.Domain.Infrastucture;
 

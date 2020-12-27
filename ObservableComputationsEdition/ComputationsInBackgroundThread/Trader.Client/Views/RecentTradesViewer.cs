@@ -5,7 +5,6 @@ using ObservableComputations;
 using Trader.Domain.Infrastucture;
 using Trader.Domain.Model;
 using Trader.Domain.Services;
-using Dispatcher = System.Windows.Threading.Dispatcher;
 
 namespace Trader.Client.Views
 {

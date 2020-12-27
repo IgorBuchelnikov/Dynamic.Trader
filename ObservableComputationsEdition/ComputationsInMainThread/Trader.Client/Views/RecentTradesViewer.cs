@@ -10,7 +10,7 @@ namespace Trader.Client.Views
 {
 	public class RecentTradesViewer : AbstractNotifyPropertyChanged, IDisposable
 	{
-		private Consumer _consumer = new Consumer();
+		private readonly Consumer _consumer = new Consumer();
 
 		public RecentTradesViewer(ITradeService tradeService)
 		{

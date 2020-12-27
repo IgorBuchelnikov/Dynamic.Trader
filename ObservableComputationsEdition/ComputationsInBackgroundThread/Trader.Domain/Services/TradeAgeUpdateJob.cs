@@ -10,7 +10,7 @@ namespace Trader.Domain.Services
 {
 	public class TradeAgeUpdateJob : IDisposable
 	{
-		private RecurringAction _recurringAction;
+		private readonly RecurringAction _recurringAction;
 
 		public TradeAgeUpdateJob(OcDispatcher backgroundOcDispatcher, Dispatcher dispatcher, ITradeService tradeService)
 		{

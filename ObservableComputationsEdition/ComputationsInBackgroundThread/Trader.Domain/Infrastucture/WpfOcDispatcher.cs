@@ -6,16 +6,16 @@ namespace Trader.Domain.Infrastucture
 {
 	public class WpfOcDispatcher : IOcDispatcher
 	{
-		private System.Windows.Threading.Dispatcher _dispatcher;
+		private Dispatcher _dispatcher;
 
-		public WpfOcDispatcher(System.Windows.Threading.Dispatcher dispatcher)
+		public WpfOcDispatcher(Dispatcher dispatcher)
 		{
 			_dispatcher = dispatcher;
 		}
 
 		#region Implementation of IDispatcher
 
-		public void Invoke(Action action, int priotity, object parameter, object context)
+		public void Invoke(Action action, int priority, object parameter, object context)
 		{
 			if (_dispatcher.CheckAccess())
 				action();

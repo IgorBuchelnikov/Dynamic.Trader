@@ -16,9 +16,8 @@ namespace Trader.Domain.Services
 		private readonly OcDispatcher _backgroundOcDispatcher;
 		private readonly IDisposable _cleanup;
 		private readonly Consumer _consumer = new Consumer();
-		private bool _disposed;
 
-		public TradeService(ILogger logger, TradeGenerator tradeGenerator, OcDispatcher backgroundOcDispatcher, WpfOcDispatcher wpfOcDispatcher)
+		public TradeService(ILogger logger, TradeGenerator tradeGenerator, OcDispatcher backgroundOcDispatcher)
 		{
 			_logger = logger;
 			_tradeGenerator = tradeGenerator;
@@ -111,22 +110,23 @@ namespace Trader.Domain.Services
 						if (!processing.Initializing)
 							log(trade);
 
-						PropertyChangedEventHandler tradeOnPropertyChanged =  
-							(sender, args) => logPropertyChangedOcDispatcher.BeginInvoke(() => log(trade));
-						trade.PropertyChanged += tradeOnPropertyChanged;
-						tradeOnPropertyChangedHandlers[index] = tradeOnPropertyChanged;
+						//void tradeOnPropertyChanged(object sender, PropertyChangedEventArgs args) => 
+						//	logPropertyChangedOcDispatcher.BeginInvoke(() => log(trade));
+
+						//trade.PropertyChanged += tradeOnPropertyChanged;
+						//tradeOnPropertyChangedHandlers[index] = tradeOnPropertyChanged;
 					}
 
 					return tradeOnPropertyChangedHandlers;
 				},
 				(oldTrades, _, tradeOnPropertyChangedHandlers) =>
 				{
-					for (var index = 0; index < tradeOnPropertyChangedHandlers.Length; index++)
-					{
-						Trade trade = oldTrades[index];
-						if (trade != null) 
-							trade.PropertyChanged -= tradeOnPropertyChangedHandlers[index];
-					}
+					//for (var index = 0; index < tradeOnPropertyChangedHandlers.Length; index++)
+					//{
+					//	Trade trade = oldTrades[index];
+					//	if (trade != null) 
+					//		trade.PropertyChanged -= tradeOnPropertyChangedHandlers[index];
+					//}
 				}).For(_consumer);	   
 		}
 

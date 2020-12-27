@@ -9,7 +9,7 @@ namespace Trader.Domain.Services
 	{
 		private readonly Random _random = new Random();
 		private readonly IStaticData _staticData;
-		private IMarketDataService _marketDataService;
+		private readonly IMarketDataService _marketDataService;
 		private int _counter = 0;
 
 		public TradeGenerator(IStaticData staticData, IMarketDataService marketDataService)
@@ -33,28 +33,27 @@ namespace Trader.Domain.Services
 					var status = _random.NextDouble() > 0.5 ? TradeStatus.Live : TradeStatus.Closed;
 					var seconds = _random.Next(1, 60 * 60 * 24);
 					var time = DateTime.Now.AddSeconds(-seconds);
-					return new Trade(id, bank, pair.Code, status, buySell, GererateRandomPrice(pair, buySell), amount, timeStamp: time);
+					return new Trade(id, bank, pair.Code, status, buySell, GenerateRandomPrice(pair, buySell), amount, timeStamp: time);
 				}
-				return new Trade(id, bank, pair.Code, TradeStatus.Live, buySell, GererateRandomPrice(pair, buySell), amount);
+				return new Trade(id, bank, pair.Code, TradeStatus.Live, buySell, GenerateRandomPrice(pair, buySell), amount);
 			}
 
 
-			IEnumerable<Trade> result;
-			result = Enumerable.Range(1, numberToGenerate).Select(_ => NewTrade()).ToArray();
+			IEnumerable<Trade> result = Enumerable.Range(1, numberToGenerate).Select(_ => NewTrade()).ToArray();
 			return result;
 		}
 
 
-		private decimal GererateRandomPrice(CurrencyPair currencyPair, BuyOrSell buyOrSell)
+		private decimal GenerateRandomPrice(CurrencyPair currencyPair, BuyOrSell buyOrSell)
 		{
 			var price = _marketDataService.Get(currencyPair.Code).Value?.Bid ?? currencyPair.InitialPrice;
 
 			//generate percent price 1-100 pips away from the inital market
 			var pipsFromMarket = _random.Next(1, 100);
 			var adjustment = Math.Round(pipsFromMarket * currencyPair.PipSize, currencyPair.DecimalPlaces);
-			decimal gererateRandomPrice = buyOrSell == BuyOrSell.Sell ? price + adjustment : price - adjustment;
+			decimal generateRandomPrice = buyOrSell == BuyOrSell.Sell ? price + adjustment : price - adjustment;
 
-			return gererateRandomPrice;
+			return generateRandomPrice;
 		}
 	}
 }

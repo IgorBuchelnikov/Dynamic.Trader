@@ -10,7 +10,7 @@ namespace Trader.Domain.Model
 		private TradeStatus _status;
 		private TimePeriod _age;
 		private bool _expired;
-		private Consumer _consumer = new Consumer();
+		private readonly Consumer _consumer = new Consumer();
 
 		public long Id { get; }
 		public string CurrencyPair { get; }
