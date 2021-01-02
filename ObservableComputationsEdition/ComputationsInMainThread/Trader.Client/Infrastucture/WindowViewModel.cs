@@ -14,7 +14,7 @@ namespace Trader.Client.Infrastucture
 		private readonly IObjectProvider _objectProvider;
 		private readonly Command _showMenuCommand;
 		private ViewContainer _selected;
-		private readonly Consumer _consumer = new Consumer();
+		private readonly OcConsumer _consumer = new OcConsumer();
 
 		public ICommand MemoryCollectCommand { get; } = new Command(() =>
 		{

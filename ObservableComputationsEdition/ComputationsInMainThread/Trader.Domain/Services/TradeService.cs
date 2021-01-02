@@ -16,7 +16,7 @@ namespace Trader.Domain.Services
 		private readonly TradeGenerator _tradeGenerator;
 		private readonly Dispatcher _dispatcher;
 		private readonly IDisposable _cleanup;
-		private readonly Consumer _consumer = new Consumer();
+		private readonly OcConsumer _consumer = new OcConsumer();
 
 		public TradeService(ILogger logger, TradeGenerator tradeGenerator, WpfOcDispatcher wpfOcDispatcher, Dispatcher dispatcher)
 		{

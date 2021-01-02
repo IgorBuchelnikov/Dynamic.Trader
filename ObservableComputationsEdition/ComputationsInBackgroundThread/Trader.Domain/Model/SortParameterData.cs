@@ -9,7 +9,7 @@ namespace Trader.Domain.Model
 	{
 		private SortContainer _selectedItem;
 
-		public SortParameterData(ObservableCollection<TradeProxy> sourceData, Consumer consumer)
+		public SortParameterData(ObservableCollection<TradeProxy> sourceData, OcConsumer consumer)
 		{
 			SortItems = new []
 			{

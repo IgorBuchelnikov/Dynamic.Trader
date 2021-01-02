@@ -9,7 +9,7 @@ namespace Trader.Domain.Model
 	public class TradesByTime 
 	{
 		public TradesByTime([NotNull] Group<Trade, TimePeriod> @group,
-			Consumer consumer)
+			OcConsumer consumer)
 		{
 			Period = group?.Key ?? throw new ArgumentNullException(nameof(group));
 

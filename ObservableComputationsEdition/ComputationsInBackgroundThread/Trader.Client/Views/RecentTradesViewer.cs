@@ -10,7 +10,7 @@ namespace Trader.Client.Views
 {
 	public class RecentTradesViewer : AbstractNotifyPropertyChanged, IDisposable
 	{
-		private readonly Consumer _consumer = new Consumer();
+		private readonly OcConsumer _consumer = new OcConsumer();
 
 		public RecentTradesViewer(ITradeService tradeService, OcDispatcher backgroundOcDispatcher, WpfOcDispatcher wpfOcDispatcher)
 		{
@@ -21,7 +21,7 @@ namespace Trader.Client.Views
 				.Ordering(t => t.Timestamp, ListSortDirection.Descending)
 				.Selecting(t => new TradeProxy(t))
 				.CollectionDisposing()
-				.CollectionDispatching(wpfOcDispatcher, backgroundOcDispatcher, new DispatcherPriorities(1, 0))
+				.CollectionDispatching(wpfOcDispatcher, backgroundOcDispatcher, 0, 1)
 				.For(_consumer);
 		}
 

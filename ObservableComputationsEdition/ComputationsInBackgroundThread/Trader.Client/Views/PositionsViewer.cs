@@ -9,7 +9,7 @@ namespace Trader.Client.Views
 {
 	public class PositionsViewer : IDisposable
 	{
-		private readonly Consumer _consumer = new Consumer();
+		private readonly OcConsumer _consumer = new OcConsumer();
 
 		public PositionsViewer(ITradeService tradeService, OcDispatcher backgroundOcDispatcher, WpfOcDispatcher wpfOcDispatcher)
 		{
@@ -17,7 +17,7 @@ namespace Trader.Client.Views
 				.Grouping(trade => trade.CurrencyPair)
 				.Selecting(group => new CurrencyPairPosition(group, _consumer))
 				.Ordering(p => p.CurrencyPair)
-				.CollectionDispatching(wpfOcDispatcher, backgroundOcDispatcher, new DispatcherPriorities(1, 0))
+				.CollectionDispatching(wpfOcDispatcher, backgroundOcDispatcher, 0, 1)
 				.For(_consumer);
 		}
 

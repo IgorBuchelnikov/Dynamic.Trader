@@ -13,7 +13,7 @@ namespace Trader.Client.Infrastucture
 		private readonly ILogger _logger;
 		private readonly IObjectProvider _objectProvider;
 		private readonly ISubject<ViewContainer> _viewCreatedSubject = new Subject<ViewContainer>();
-		private readonly Consumer _consumer = new Consumer();
+		private readonly OcConsumer _consumer = new OcConsumer();
 
 		private bool _showLinks=false;
 		private IEnumerable<MenuItem> _items;

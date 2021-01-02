@@ -17,7 +17,7 @@ namespace Trader.Client.Views
 		public ICommand NextPageCommand => _nextPageCommand;
 		public ICommand PreviousPageCommand => _previousPageCommand;
 
-		private readonly Consumer _consumer = new Consumer();
+		private readonly OcConsumer _consumer = new OcConsumer();
 
 		public PagedDataViewer(ITradeService tradeService, SearchHints searchHints)
 		{

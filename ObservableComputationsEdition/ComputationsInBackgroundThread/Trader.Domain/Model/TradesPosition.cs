@@ -8,7 +8,7 @@ namespace Trader.Domain.Model
 		private readonly IReadScalar<int> _count;
 		
 		public TradesPosition(IReadScalar<decimal> buy, IReadScalar<decimal> sell, IReadScalar<int> count,
-			Consumer consumer)
+			OcConsumer consumer)
 		{
 			Buy = buy;
 			Sell = sell;

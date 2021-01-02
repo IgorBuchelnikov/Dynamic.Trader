@@ -8,7 +8,7 @@ namespace Trader.Client.Views
 	{
 		private string _searchText = String.Empty;
 		private readonly Computing<string> _searchTextToApply;
-		private readonly Consumer _consumer = new Consumer();
+		private readonly OcConsumer _consumer = new OcConsumer();
 
 		public SearchHints(UserInputThrottlingOcDispatcher userInputThrottlingOcDispatcher)
 		{

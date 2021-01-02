@@ -11,7 +11,7 @@ namespace Trader.Client.Views
 	public class LiveTradesViewer : AbstractNotifyPropertyChanged, IDisposable
 	{
 		private bool _paused;
-		readonly Consumer _consumer = new Consumer();
+		readonly OcConsumer _consumer = new OcConsumer();
 
 		public LiveTradesViewer(ITradeService tradeService, SearchHints searchHints)
 		{

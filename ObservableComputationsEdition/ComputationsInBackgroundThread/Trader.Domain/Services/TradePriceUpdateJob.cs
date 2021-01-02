@@ -10,7 +10,7 @@ namespace Trader.Domain.Services
 {
 	public class TradePriceUpdateJob : IDisposable
 	{
-		private readonly Consumer _consumer = new Consumer();
+		private readonly OcConsumer _consumer = new OcConsumer();
 
 		public TradePriceUpdateJob(ITradeService tradeService, IMarketDataService marketDataService, Dispatcher dispatcher)
 		{
@@ -26,7 +26,7 @@ namespace Trader.Domain.Services
 						IReadScalar<MarketData> observableMarketData =
 							marketDataService.Get(tradesGroup.Key);
 
-						Consumer consumer1 = new Consumer();
+						OcConsumer consumer1 = new OcConsumer();
 
 						//DataHasChanged
 						tradesGroup.CollectionProcessing(

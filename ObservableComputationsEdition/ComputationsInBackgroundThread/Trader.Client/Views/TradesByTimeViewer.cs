@@ -9,7 +9,7 @@ namespace Trader.Client.Views
 {
 	public class TradesByTimeViewer : AbstractNotifyPropertyChanged, IDisposable
 	{
-		private readonly Consumer _consumer = new Consumer();
+		private readonly OcConsumer _consumer = new OcConsumer();
 
 		public TradesByTimeViewer(ITradeService tradeService, OcDispatcher backgroundOcDispatcher, WpfOcDispatcher wpfOcDispatcher)
 		{
@@ -17,7 +17,7 @@ namespace Trader.Client.Views
 				.Grouping(trade => trade.Age)
 				.Selecting(group => new TradesByTime(group, _consumer, backgroundOcDispatcher, wpfOcDispatcher))
 				.Ordering(t => t.Period)
-				.CollectionDispatching(wpfOcDispatcher, backgroundOcDispatcher, new DispatcherPriorities(1, 0))			   
+				.CollectionDispatching(wpfOcDispatcher, backgroundOcDispatcher, 0, 1)			   
 				.For(_consumer);
 		}
 

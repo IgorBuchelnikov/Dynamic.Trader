@@ -11,7 +11,7 @@ namespace Trader.Client.Views
 	public class LiveTradesViewer : AbstractNotifyPropertyChanged, IDisposable
 	{
 		private bool _paused;
-		private readonly Consumer _consumer = new Consumer();
+		private readonly OcConsumer _consumer = new OcConsumer();
 
 		public LiveTradesViewer(ITradeService tradeService, SearchHints searchHints, OcDispatcher backgroundOcDispatcher, WpfOcDispatcher wpfOcDispatcher)
 		{
@@ -25,7 +25,7 @@ namespace Trader.Client.Views
 				.Ordering(t => t.Timestamp, ListSortDirection.Descending)
 				.Selecting(t => new TradeProxy(t))
 				.CollectionDisposing()
-				.CollectionDispatching(wpfOcDispatcher, backgroundOcDispatcher, new DispatcherPriorities(1, 0))
+				.CollectionDispatching(wpfOcDispatcher, backgroundOcDispatcher, 0, 1)
 				.For(_consumer);
 		}
 

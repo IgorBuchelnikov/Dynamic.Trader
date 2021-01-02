@@ -10,7 +10,7 @@ namespace Trader.Client.Views
 {
 	public class NearToMarketViewer : AbstractNotifyPropertyChanged, IDisposable
 	{
-		private readonly Consumer _consumer = new Consumer();
+		private readonly OcConsumer _consumer = new OcConsumer();
 		private double _nearToMarketPercent = 0.05D;
 
 		public NearToMarketViewer(INearToMarketService nearToMarketService)

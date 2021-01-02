@@ -10,7 +10,7 @@ namespace Trader.Domain.Model
 	public class TradesByTime
 	{
 		public TradesByTime([NotNull] Group<Trade, TimePeriod> group,
-			Consumer consumer, OcDispatcher backgroundOcDispatcher, WpfOcDispatcher wpfOcDispatcher)
+			OcConsumer consumer, OcDispatcher backgroundOcDispatcher, WpfOcDispatcher wpfOcDispatcher)
 		{
 			Period = group?.Key ?? throw new ArgumentNullException(nameof(group));
 
@@ -18,7 +18,7 @@ namespace Trader.Domain.Model
 				.Ordering(t => t.Timestamp, ListSortDirection.Descending)
 				.Selecting(trade => new TradeProxy(trade))
 				.CollectionDisposing()
-				.CollectionDispatching(wpfOcDispatcher, backgroundOcDispatcher, new DispatcherPriorities(1, 0))
+				.CollectionDispatching(wpfOcDispatcher, backgroundOcDispatcher, 0, 1)
 				.For(consumer);
 		}
 

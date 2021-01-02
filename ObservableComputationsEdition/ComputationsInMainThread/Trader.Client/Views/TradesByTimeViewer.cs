@@ -9,7 +9,7 @@ namespace Trader.Client.Views
 {
 	public class TradesByTimeViewer : AbstractNotifyPropertyChanged, IDisposable
 	{
-		private readonly Consumer _consumer = new Consumer();
+		private readonly OcConsumer _consumer = new OcConsumer();
 
 		public TradesByTimeViewer(ITradeService tradeService)
 		{

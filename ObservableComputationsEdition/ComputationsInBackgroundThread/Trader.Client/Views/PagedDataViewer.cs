@@ -17,7 +17,7 @@ namespace Trader.Client.Views
 		public ICommand NextPageCommand => _nextPageCommand;
 		public ICommand PreviousPageCommand => _previousPageCommand;
 
-		private readonly Consumer _consumer = new Consumer();
+		private readonly OcConsumer _consumer = new OcConsumer();
 
 		public PagedDataViewer(ITradeService tradeService, SearchHints searchHints, OcDispatcher backgroundOcDispatcher, WpfOcDispatcher wpfOcDispatcher)
 		{
@@ -35,7 +35,7 @@ namespace Trader.Client.Views
 				.Filtering(t =>	
 					t.Trade.CurrencyPair.Contains(SearchHints.SearchTextToApply.Value, StringComparison.OrdinalIgnoreCase)
 					|| t.Trade.Customer.Contains(SearchHints.SearchTextToApply.Value, StringComparison.OrdinalIgnoreCase))
-				.CollectionDispatching(wpfOcDispatcher, backgroundOcDispatcher, new DispatcherPriorities(1, 0))
+				.CollectionDispatching(wpfOcDispatcher, backgroundOcDispatcher, 0, 1)
 ;
 
 			Data = AllData.Paging(25, 1).For(_consumer);

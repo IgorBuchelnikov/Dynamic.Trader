@@ -12,7 +12,7 @@ namespace Trader.Domain.Model
 		private readonly Group<Trade, int> _group;
 
 		public TradesByPercentDiff([NotNull] Group<Trade, int> group,
-			Consumer consumer, OcDispatcher backgroundOcDispatcher, WpfOcDispatcher wpfOcDispatcher)
+			OcConsumer consumer, OcDispatcher backgroundOcDispatcher, WpfOcDispatcher wpfOcDispatcher)
 		{
 			_group = group ?? throw new ArgumentNullException(nameof(group));
 			PercentBand = group.Key;
@@ -21,7 +21,7 @@ namespace Trader.Domain.Model
 			.Ordering(t => t.Timestamp, ListSortDirection.Descending)
 			.Selecting(trade => new TradeProxy(trade))
 				.CollectionDisposing()
-				.CollectionDispatching(wpfOcDispatcher, backgroundOcDispatcher, new DispatcherPriorities(1, 0))
+				.CollectionDispatching(wpfOcDispatcher, backgroundOcDispatcher, 0, 1)
 				.For(consumer);
 		}
 

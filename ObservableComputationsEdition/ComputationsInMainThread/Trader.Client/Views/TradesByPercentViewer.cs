@@ -8,7 +8,7 @@ namespace Trader.Client.Views
 {
 	public class TradesByPercentViewer : AbstractNotifyPropertyChanged, IDisposable
 	{
-		private readonly Consumer _consumer = new Consumer();
+		private readonly OcConsumer _consumer = new OcConsumer();
 
 		public TradesByPercentViewer(INearToMarketService nearToMarketService)
 		{

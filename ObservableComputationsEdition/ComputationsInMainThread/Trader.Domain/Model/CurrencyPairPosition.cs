@@ -7,7 +7,7 @@ namespace Trader.Domain.Model
 	{
 		private TradesPosition _position;
 
-		public CurrencyPairPosition(Group<Trade, string> tradesByCurrencyPair, Consumer consumer)
+		public CurrencyPairPosition(Group<Trade, string> tradesByCurrencyPair, OcConsumer consumer)
 		{
 			CurrencyPair = tradesByCurrencyPair.Key;
 			_position = new TradesPosition(

@@ -8,7 +8,7 @@ namespace Trader.Client.Views
 {
 	public class TradesByPercentViewer : AbstractNotifyPropertyChanged, IDisposable
 	{
-		private readonly Consumer _consumer = new Consumer();
+		private readonly OcConsumer _consumer = new OcConsumer();
 
 		public TradesByPercentViewer(INearToMarketService nearToMarketService, OcDispatcher backgroundOcDispatcher, WpfOcDispatcher wpfOcDispatcher)
 		{
@@ -17,7 +17,7 @@ namespace Trader.Client.Views
 				.Grouping(trade => (int) Math.Truncate(Math.Abs(trade.PercentFromMarket.Value)))
 				.Selecting(group => new Domain.Model.TradesByPercentDiff(group, _consumer, backgroundOcDispatcher, wpfOcDispatcher))
 				.Ordering(tbpd => tbpd.PercentBand)
-				.CollectionDispatching(wpfOcDispatcher, backgroundOcDispatcher, new DispatcherPriorities(1, 0))
+				.CollectionDispatching(wpfOcDispatcher, backgroundOcDispatcher, 0, 1)
 				.For(_consumer);
 		}
 
