@@ -107,7 +107,7 @@ namespace Trader.Domain.Services
 					{
 						Trade trade = newTrades[index];
 
-						if (!processing.InitializationInProgress)
+						if (!processing.ActivationInProgress)
 							log(trade);
 
 						//void TradeOnPropertyChanged(object sender, PropertyChangedEventArgs args) => 
