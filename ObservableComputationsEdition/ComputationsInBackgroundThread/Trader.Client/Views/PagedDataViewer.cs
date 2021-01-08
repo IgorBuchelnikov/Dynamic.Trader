@@ -35,8 +35,7 @@ namespace Trader.Client.Views
 				.Filtering(t =>	
 					t.Trade.CurrencyPair.Contains(SearchHints.SearchTextToApply.Value, StringComparison.OrdinalIgnoreCase)
 					|| t.Trade.Customer.Contains(SearchHints.SearchTextToApply.Value, StringComparison.OrdinalIgnoreCase))
-				.CollectionDispatching(wpfOcDispatcher, backgroundOcDispatcher, 0, 1)
-;
+				.CollectionDispatching(wpfOcDispatcher, backgroundOcDispatcher, 0, 1);
 
 			Data = AllData.Paging(25, 1).For(_consumer);
 

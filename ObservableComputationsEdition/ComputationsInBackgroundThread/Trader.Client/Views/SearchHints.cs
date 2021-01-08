@@ -1,4 +1,5 @@
 using System;
+using System.Windows.Input;
 using ObservableComputations;
 using Trader.Domain.Infrastucture;
 
@@ -10,7 +11,7 @@ namespace Trader.Client.Views
 		private readonly Computing<string> _searchTextToApply;
 		private readonly OcConsumer _consumer = new OcConsumer();
 
-		public SearchHints(UserInputThrottlingOcDispatcher userInputThrottlingOcDispatcher)
+		public SearchHints(UserInputThrottlingOcDispatcher userInputThrottlingOcDispatcher, WpfOcDispatcher wpfOcDispatcher)
 		{
 			_searchTextToApply =
 				new Computing<string>(() => 
@@ -18,6 +19,15 @@ namespace Trader.Client.Views
 					.ScalarDispatching(userInputThrottlingOcDispatcher)
 					.Value ?? string.Empty)
 				.For(_consumer);
+
+			_searchTextToApply.PreValueChanged += (sender, args) => 
+				wpfOcDispatcher.IsPaused = true;
+
+			_searchTextToApply.PostValueChanged += (sender, args) =>
+			{
+				wpfOcDispatcher.IsPaused = false;
+				wpfOcDispatcher.Invoke(() => CommandManager.InvalidateRequerySuggested(), 0, null, null);
+			};
 		}
 
 		public string SearchText
