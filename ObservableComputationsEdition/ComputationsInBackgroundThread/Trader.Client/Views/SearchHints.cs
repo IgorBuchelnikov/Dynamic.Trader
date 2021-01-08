@@ -26,7 +26,7 @@ namespace Trader.Client.Views
 			_searchTextToApply.PostValueChanged += (sender, args) =>
 			{
 				wpfOcDispatcher.IsPaused = false;
-				wpfOcDispatcher.Invoke(() => CommandManager.InvalidateRequerySuggested(), 0, null, null);
+				wpfOcDispatcher.Invoke(CommandManager.InvalidateRequerySuggested);
 			};
 		}
 
