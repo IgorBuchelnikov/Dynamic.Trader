@@ -34,6 +34,9 @@
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="ObservableComputations, Version=2.0.0.0, Culture=neutral, PublicKeyToken=f929bfa2aaeea235, processorArchitecture=MSIL">
+      <HintPath>..\packages\ObservableComputations.2.0.0\lib\net461\ObservableComputations.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Reactive, Version=4.4.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
@@ -96,12 +99,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\ObservableComputations\src\ObservableComputations\ObservableComputations.csproj">
-      <Project>{19cb0f05-4ce0-4240-a9d1-4a64c1fb4112}</Project>
-      <Name>ObservableComputations</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
