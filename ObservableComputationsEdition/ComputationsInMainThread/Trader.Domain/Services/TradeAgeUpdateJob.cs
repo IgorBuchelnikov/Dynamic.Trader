@@ -40,7 +40,6 @@ namespace Trader.Domain.Services
 							if (diff.TotalSeconds > 30)
 								trade.Expired = true;								
 						}
-
 					});  
 				}
 			}, () => TimeSpan.FromSeconds(1));
