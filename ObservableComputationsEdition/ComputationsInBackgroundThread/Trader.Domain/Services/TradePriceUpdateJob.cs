@@ -54,7 +54,6 @@ namespace Trader.Domain.Services
 										trade.MarketPrice = bid);
 								}, DispatcherPriority.Background);
 							});
-						//}, DispatcherPriority.Background);  
 
 						disposables[index] = new CompositeDisposable(consumer1, binding);
 					}

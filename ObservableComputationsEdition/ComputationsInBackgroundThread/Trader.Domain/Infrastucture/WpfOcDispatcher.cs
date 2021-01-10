@@ -42,7 +42,7 @@ namespace Trader.Domain.Infrastucture
 
 		#region Implementation of IDispatcher
 
-		public void Invoke(Action action, int priority, object parameter, object context)
+		public void Invoke(Action action, int priority = 0, object parameter = null, object context = null)
 		{
 			if (_isPaused)
 			{
