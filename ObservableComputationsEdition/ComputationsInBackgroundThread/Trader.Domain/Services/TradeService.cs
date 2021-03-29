@@ -111,7 +111,7 @@ namespace Trader.Domain.Services
 							log(trade);
 
 						//void tradeOnPropertyChanged(object sender, PropertyChangedEventArgs args) => 
-						//	logPropertyChangedOcDispatcher.BeginInvoke(() => log(trade));
+						//	logPropertyChangedOcDispatcher.InvokeAsync(() => log(trade));
 
 						//trade.PropertyChanged += tradeOnPropertyChanged;
 						//tradeOnPropertyChangedHandlers[index] = tradeOnPropertyChanged;
@@ -136,7 +136,8 @@ namespace Trader.Domain.Services
 
 		public void Dispose()
 		{
-			_cleanup.Dispose();
+			_backgroundOcDispatcher.Invoke(() =>
+				_cleanup.Dispose());
 		}
 	}
 }

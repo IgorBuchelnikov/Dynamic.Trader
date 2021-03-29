@@ -36,17 +36,16 @@ namespace Trader.Domain.Services
 							})
 						.For(consumer1);
 
-						Binding<MarketData> binding = 
-							observableMarketData.Binding(newMarketData =>
-							{
-								decimal bid = observableMarketData.Value.Bid;
+						observableMarketData.Binding((newMarketData, _) =>
+						{
+							decimal bid = observableMarketData.Value.Bid;
 
-								tradesGroup.ForEach(trade =>																
-									trade.MarketPrice = bid);
-						 
-							}); 
+							tradesGroup.ForEach(trade =>																
+								trade.MarketPrice = bid);
+					 
+						}).For(consumer1); 
 
-						disposables[index] = new CompositeDisposable(consumer1, binding);
+						disposables[index] = new CompositeDisposable(consumer1);
 					}
 
 					return disposables;

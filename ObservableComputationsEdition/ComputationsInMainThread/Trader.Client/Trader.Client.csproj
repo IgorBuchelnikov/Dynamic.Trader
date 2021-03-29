@@ -62,8 +62,8 @@
     <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.19\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
     </Reference>
-    <Reference Include="ObservableComputations, Version=2.0.0.0, Culture=neutral, PublicKeyToken=f929bfa2aaeea235, processorArchitecture=MSIL">
-      <HintPath>..\packages\ObservableComputations.2.0.0\lib\net461\ObservableComputations.dll</HintPath>
+    <Reference Include="ObservableComputations, Version=2.1.0.0, Culture=neutral, PublicKeyToken=f929bfa2aaeea235, processorArchitecture=MSIL">
+      <HintPath>..\packages\ObservableComputations.2.1.0\lib\net461\ObservableComputations.dll</HintPath>
     </Reference>
     <Reference Include="Splat, Version=9.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Splat.9.1.1\lib\net461\Splat.dll</HintPath>
@@ -120,7 +120,6 @@
     <Compile Include="Infrastucture\AnimatedWrapPanel.cs" />
     <Compile Include="Infrastucture\AppConventions.cs" />
     <Compile Include="Infrastucture\AppRegistry.cs" />
-    <Compile Include="Infrastucture\BooleanToVisibilityConverter.cs" />
     <Compile Include="Infrastucture\Command.cs" />
     <Compile Include="Infrastucture\DependencyObjectHook.cs" />
     <Compile Include="Infrastucture\ExtentionMethods.cs" />

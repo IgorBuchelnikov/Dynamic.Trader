@@ -4,6 +4,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:infrastucture="clr-namespace:Trader.Client.Infrastucture"
+	xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	d:DataContext="{d:DesignInstance infrastucture:MenuItems,
 	                                 IsDesignTimeCreatable=False}"
@@ -16,8 +17,8 @@
 				<ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.button.xaml" />
 				<ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/materialdesigntheme.togglebutton.xaml" />
 			</ResourceDictionary.MergedDictionaries>
-			<infrastucture:EqualityToBooleanConverter x:Key="EqualityToBooleanConverter" />
 
+			<BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 		</ResourceDictionary>
 	</UserControl.Resources>
 
@@ -112,7 +113,10 @@
 											<GridViewColumn Header="ObservableComputations">
 												<GridViewColumn.CellTemplate>
 													<DataTemplate DataType="infrastucture:Link">
-														<TextBlock Margin="4,0,0,0" ToolTip="{Binding UrlObservableComputations}">
+														<TextBlock
+															Margin="4,0,0,0"
+															ToolTip="{Binding UrlObservableComputations}"
+															Visibility="{Binding UrlObservableComputationsIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}}">
 															<Hyperlink infrastucture:HyperlinkExtensions.IsExternal="true" NavigateUri="{Binding UrlObservableComputations}">
 																<TextBlock Text="{Binding Display}" />
 															</Hyperlink>

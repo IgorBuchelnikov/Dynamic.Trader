@@ -21,7 +21,6 @@ namespace Trader.Client
 
 			while (!RecurringAction.AllInstancesIsDisposed)
 				Dispatcher.Invoke(() => { }, DispatcherPriority.Background);
-
 		}
 	}
 }

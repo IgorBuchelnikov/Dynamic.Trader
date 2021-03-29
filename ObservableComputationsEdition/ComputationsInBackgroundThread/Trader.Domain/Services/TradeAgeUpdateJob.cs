@@ -12,7 +12,7 @@ namespace Trader.Domain.Services
 	{
 		private readonly RecurringAction _recurringAction;
 
-		public TradeAgeUpdateJob(OcDispatcher backgroundOcDispatcher, Dispatcher dispatcher, ITradeService tradeService)
+		public TradeAgeUpdateJob(OcDispatcher backgroundOcDispatcher, ITradeService tradeService)
 		{
 			_recurringAction = new RecurringAction(() =>
 			{

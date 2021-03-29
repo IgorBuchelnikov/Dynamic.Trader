@@ -18,5 +18,8 @@ namespace Trader.Client.Infrastucture
 
 		public string Display { get; }
 
+		public bool UrlDynamicDataIsNotNull => UrlDynamicData != null;
+
+		public bool UrlObservableComputationsIsNotNull => UrlObservableComputations != null;
 	}
 }

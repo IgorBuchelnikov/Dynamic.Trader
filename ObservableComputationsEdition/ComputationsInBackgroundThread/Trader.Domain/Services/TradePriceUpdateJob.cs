@@ -11,9 +11,12 @@ namespace Trader.Domain.Services
 	public class TradePriceUpdateJob : IDisposable
 	{
 		private readonly OcConsumer _consumer = new OcConsumer();
+		private readonly  OcDispatcher _backgroundOcDispatcher;
 
-		public TradePriceUpdateJob(ITradeService tradeService, IMarketDataService marketDataService, Dispatcher dispatcher)
+		public TradePriceUpdateJob(ITradeService tradeService, IMarketDataService marketDataService, Dispatcher dispatcher, OcDispatcher backgroundOcDispatcher)
 		{
+			_backgroundOcDispatcher = backgroundOcDispatcher;
+
 			tradeService.All
 			.Grouping(t => t.CurrencyPair)
 			.CollectionProcessing(
@@ -43,19 +46,18 @@ namespace Trader.Domain.Services
 							})
 						.For(consumer1);
 
-						Binding<MarketData> binding = 
-							observableMarketData.Binding(newMarketData =>
+						observableMarketData.Binding((newMarketData, _) =>
+						{
+							decimal bid = observableMarketData.Value.Bid;
+							Trade[] tradesGroupCopy = tradesGroup.ToArray();
+							dispatcher.InvokeAsync(() =>
 							{
-								decimal bid = observableMarketData.Value.Bid;
-								Trade[] tradesGroupCopy = tradesGroup.ToArray();
-								dispatcher.Invoke(() =>
-								{
-									tradesGroupCopy.ForEach(trade =>
-										trade.MarketPrice = bid);
-								}, DispatcherPriority.Background);
-							});
+								tradesGroupCopy.ForEach(trade =>
+									trade.MarketPrice = bid);
+							}, DispatcherPriority.Background);
+						}).For(consumer1);
 
-						disposables[index] = new CompositeDisposable(consumer1, binding);
+						disposables[index] = consumer1;
 					}
 
 					return disposables;
@@ -66,7 +68,8 @@ namespace Trader.Domain.Services
 
 		public void Dispose()
 		{
-			_consumer.Dispose();
+			_backgroundOcDispatcher.Invoke(() =>
+				_consumer.Dispose());
 		}
 	}
 }
