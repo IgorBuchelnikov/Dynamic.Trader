@@ -127,7 +127,10 @@
 											<GridViewColumn Header="DynamicData">
 												<GridViewColumn.CellTemplate>
 													<DataTemplate DataType="infrastucture:Link">
-														<TextBlock Margin="4,0,0,0" ToolTip="{Binding UrlDynamicData}">
+														<TextBlock
+															Margin="4,0,0,0"
+															ToolTip="{Binding UrlDynamicData}"
+															Visibility="{Binding UrlDynamicDataIsNotNull, Converter={StaticResource BooleanToVisibilityConverter}}">
 															<Hyperlink infrastucture:HyperlinkExtensions.IsExternal="true" NavigateUri="{Binding UrlDynamicData}">
 																<TextBlock Text="{Binding Display}" />
 															</Hyperlink>

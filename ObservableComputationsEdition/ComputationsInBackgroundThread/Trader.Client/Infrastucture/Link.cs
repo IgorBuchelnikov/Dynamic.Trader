@@ -21,7 +21,5 @@ namespace Trader.Client.Infrastucture
 		public bool UrlDynamicDataIsNotNull => UrlDynamicData != null;
 
 		public bool UrlObservableComputationsIsNotNull => UrlObservableComputations != null;
-
-
 	}
 }
