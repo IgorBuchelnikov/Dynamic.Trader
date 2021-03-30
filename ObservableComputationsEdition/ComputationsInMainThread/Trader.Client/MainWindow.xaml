@@ -15,7 +15,6 @@
 	                                 IsDesignTimeCreatable=False}"
 	Background="{DynamicResource MaterialDesignPaper}"
 	BorderThickness="1"
-	Closing="MainWindow_OnClosing"
 	FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
 	GlowBrush="{DynamicResource AccentColorBrush3}"
 	TextElement.Foreground="{DynamicResource MaterialDesignBody}"

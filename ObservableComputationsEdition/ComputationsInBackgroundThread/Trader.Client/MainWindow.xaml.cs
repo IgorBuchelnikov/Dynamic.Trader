@@ -14,13 +14,5 @@ namespace Trader.Client
 		{
 			InitializeComponent();
 		}
-
-		private void MainWindow_OnClosing(object sender, CancelEventArgs e)
-		{
-			App.Container.Dispose();
-
-			while (!RecurringAction.AllInstancesIsDisposed)
-				Dispatcher.Invoke(() => { }, DispatcherPriority.Background);
-		}
 	}
 }

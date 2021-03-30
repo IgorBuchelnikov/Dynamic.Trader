@@ -50,7 +50,7 @@ namespace Trader.Domain.Services
 						{
 							decimal bid = observableMarketData.Value.Bid;
 							Trade[] tradesGroupCopy = tradesGroup.ToArray();
-							dispatcher.InvokeAsync(() =>
+							dispatcher.Invoke(() =>
 							{
 								tradesGroupCopy.ForEach(trade =>
 									trade.MarketPrice = bid);
@@ -68,7 +68,7 @@ namespace Trader.Domain.Services
 
 		public void Dispose()
 		{
-			_backgroundOcDispatcher.Invoke(() =>
+			_backgroundOcDispatcher.InvokeAsync(() =>
 				_consumer.Dispose());
 		}
 	}

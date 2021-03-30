@@ -136,7 +136,7 @@ namespace Trader.Domain.Services
 
 		public void Dispose()
 		{
-			_backgroundOcDispatcher.Invoke(() =>
+			_backgroundOcDispatcher.InvokeAsync(() =>
 				_cleanup.Dispose());
 		}
 	}
