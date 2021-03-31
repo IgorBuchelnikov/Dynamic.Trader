@@ -61,8 +61,6 @@ namespace Trader.Client
 			//RxApp.SupportsRangeNotifications = false;
 
 			//run start up jobs
-
-
 			_container.GetInstance<TradePriceUpdateJob>();
 			_container.GetInstance<TradeAgeUpdateJob>();
 
@@ -79,7 +77,7 @@ namespace Trader.Client
 			while (!RecurringAction.AllInstancesIsDisposed)
 				Dispatcher.Invoke(() => { }, DispatcherPriority.Background);
 
-			while (backgroundOcDispatcher.GetQueueCount(0) + backgroundOcDispatcher.GetQueueCount(1) > 0)
+			while (backgroundOcDispatcher.GetQueueCount() > 0)
 				Thread.Sleep(10);				
 			
 			_containerOcDispatcher.Dispose();
