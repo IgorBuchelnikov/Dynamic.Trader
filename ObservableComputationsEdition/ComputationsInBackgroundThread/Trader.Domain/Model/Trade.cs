@@ -52,11 +52,12 @@ namespace Trader.Domain.Model
 
 		private Trade()
 		{
-		PercentFromMarket = new Computing<decimal>(() => 
-		MarketPrice != 0 
-		? Math.Round(((TradePrice - MarketPrice) / MarketPrice) * 100, 4)
-		: 0)
-				.For(_consumer);
+			PercentFromMarket = 
+				new Computing<decimal>(() => 
+					MarketPrice != 0 
+						? Math.Round(((TradePrice - MarketPrice) / MarketPrice) * 100, 4)
+						: 0
+				).For(_consumer);
 		}
 
 		public Trade(Trade trade, TradeStatus status) : this()
