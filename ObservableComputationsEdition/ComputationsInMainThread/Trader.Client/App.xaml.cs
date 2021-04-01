@@ -19,7 +19,7 @@ namespace Trader.Client
 		/// <exception cref="T:System.InvalidOperationException">More than one instance of the <see cref="T:System.Windows.Application" /> class is created per <see cref="T:System.AppDomain" />.</exception>
 		public App()
 		{
-			ObservableComputations.OcConfiguration.SaveInstantiationStackTrace = true;
+			ObservableComputations.OcConfiguration.SaveInstantiationStackTrace = false;
 			ObservableComputations.OcConfiguration.EventUnsubscriberThreadsCount = 4;
 			AppDomain.CurrentDomain.AssemblyLoad += CurrentDomain_AssemblyLoad;
 
