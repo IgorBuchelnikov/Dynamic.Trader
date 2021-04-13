@@ -29,7 +29,7 @@ namespace Trader.Domain.Infrastucture
 			});
 		}
 
-		#region Implementation of IDispatcher
+		#region Implementation of IOcDispatcher
 
 		public void Invoke(Action action, int priority, object parameter, object context)
 		{
