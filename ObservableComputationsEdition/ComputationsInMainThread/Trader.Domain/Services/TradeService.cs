@@ -99,34 +99,34 @@ namespace Trader.Domain.Services
 
 			All.CollectionDispatching(logOcDispatcher, wpfOcDispatcher)
 				.CollectionProcessing(
-				(newTrades, processing) =>
-				{
-					PropertyChangedEventHandler[] tradeOnPropertyChangedHandlers =
-						new PropertyChangedEventHandler[newTrades.Length];
-					for (var index = 0; index < newTrades.Length; index++)
+					(newTrades, processing) =>
 					{
-						Trade trade = newTrades[index];
+						PropertyChangedEventHandler[] tradeOnPropertyChangedHandlers =
+							new PropertyChangedEventHandler[newTrades.Length];
+						for (var index = 0; index < newTrades.Length; index++)
+						{
+							Trade trade = newTrades[index];
 
-						if (!processing.ActivationInProgress)
-							log(trade);
+							if (!processing.ActivationInProgress)
+								log(trade);
 
-						//void TradeOnPropertyChanged(object sender, PropertyChangedEventArgs args) => 
-						//	logPropertyChangedOcDispatcher.BeginInvoke(() => log(trade));
-						//trade.PropertyChanged += TradeOnPropertyChanged;
-						//tradeOnPropertyChangedHandlers[index] = TradeOnPropertyChanged;
-					}
+							//void TradeOnPropertyChanged(object sender, PropertyChangedEventArgs args) => 
+							//	logPropertyChangedOcDispatcher.BeginInvoke(() => log(trade));
+							//trade.PropertyChanged += TradeOnPropertyChanged;
+							//tradeOnPropertyChangedHandlers[index] = TradeOnPropertyChanged;
+						}
 
-					return tradeOnPropertyChangedHandlers;
-				},
-				(oldTrades, _, tradeOnPropertyChangedHandlers) =>
-				{
-					//for (var index = 0; index < tradeOnPropertyChangedHandlers.Length; index++)
-					//{
-					//	Trade trade = oldTrades[index];
-					//	if (trade != null)
-					//		trade.PropertyChanged -= tradeOnPropertyChangedHandlers[index];
-					//}
-				}).For(_consumer);
+						return tradeOnPropertyChangedHandlers;
+					},
+					(oldTrades, _, tradeOnPropertyChangedHandlers) =>
+					{
+						//for (var index = 0; index < tradeOnPropertyChangedHandlers.Length; index++)
+						//{
+						//	Trade trade = oldTrades[index];
+						//	if (trade != null)
+						//		trade.PropertyChanged -= tradeOnPropertyChangedHandlers[index];
+						//}
+					}).For(_consumer);
 		}
 
 		public ObservableCollection<Trade> All { get; }

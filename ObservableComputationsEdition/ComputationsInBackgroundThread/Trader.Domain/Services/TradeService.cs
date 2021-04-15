@@ -45,13 +45,13 @@ namespace Trader.Domain.Services
 			{
 				var number = random.Next(1, 2);
 				for (int i = 1; i <= number; i++)
-				_backgroundOcDispatcher.Invoke(() =>
-				{
-					Trade trade = All[random.Next(0, All.Count - 1)];
-					trade.Status = TradeStatus.Closed;
-					trade.CloseTimestamp = DateTime.Now;
-					closedTrades.Add(trade);
-				});
+					_backgroundOcDispatcher.Invoke(() =>
+					{
+						Trade trade = All[random.Next(0, All.Count - 1)];
+						trade.Status = TradeStatus.Closed;
+						trade.CloseTimestamp = DateTime.Now;
+						closedTrades.Add(trade);
+					});
 			}, RandomInterval);
 
 
@@ -99,35 +99,35 @@ namespace Trader.Domain.Services
 
 			All
 				.CollectionProcessing(
-				(newTrades, processing) =>
-				{
-					PropertyChangedEventHandler[] tradeOnPropertyChangedHandlers = 
-						new PropertyChangedEventHandler[newTrades.Length];
-					for (var index = 0; index < newTrades.Length; index++)
+					(newTrades, processing) =>
 					{
-						Trade trade = newTrades[index];
+						PropertyChangedEventHandler[] tradeOnPropertyChangedHandlers = 
+							new PropertyChangedEventHandler[newTrades.Length];
+						for (var index = 0; index < newTrades.Length; index++)
+						{
+							Trade trade = newTrades[index];
 
-						if (!processing.ActivationInProgress)
-							log(trade);
+							if (!processing.ActivationInProgress)
+								log(trade);
 
-						//void tradeOnPropertyChanged(object sender, PropertyChangedEventArgs args) => 
-						//	logPropertyChangedOcDispatcher.InvokeAsync(() => log(trade));
+							//void tradeOnPropertyChanged(object sender, PropertyChangedEventArgs args) => 
+							//	logPropertyChangedOcDispatcher.InvokeAsync(() => log(trade));
 
-						//trade.PropertyChanged += tradeOnPropertyChanged;
-						//tradeOnPropertyChangedHandlers[index] = tradeOnPropertyChanged;
-					}
+							//trade.PropertyChanged += tradeOnPropertyChanged;
+							//tradeOnPropertyChangedHandlers[index] = tradeOnPropertyChanged;
+						}
 
-					return tradeOnPropertyChangedHandlers;
-				},
-				(oldTrades, _, tradeOnPropertyChangedHandlers) =>
-				{
-					//for (var index = 0; index < tradeOnPropertyChangedHandlers.Length; index++)
-					//{
-					//	Trade trade = oldTrades[index];
-					//	if (trade != null) 
-					//		trade.PropertyChanged -= tradeOnPropertyChangedHandlers[index];
-					//}
-				}).For(_consumer);	   
+						return tradeOnPropertyChangedHandlers;
+					},
+					(oldTrades, _, tradeOnPropertyChangedHandlers) =>
+					{
+						//for (var index = 0; index < tradeOnPropertyChangedHandlers.Length; index++)
+						//{
+						//	Trade trade = oldTrades[index];
+						//	if (trade != null) 
+						//		trade.PropertyChanged -= tradeOnPropertyChangedHandlers[index];
+						//}
+					}).For(_consumer);	   
 		}
 
 		public ObservableCollection<Trade> All { get; }

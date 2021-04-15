@@ -27,7 +27,7 @@ namespace Trader.Domain.Services
 
 		public IReadScalar<MarketData> Get(string currencyPair)
 		{
-		if (currencyPair == null) throw new ArgumentNullException(nameof(currencyPair));
+			if (currencyPair == null) throw new ArgumentNullException(nameof(currencyPair));
 			if (_marketDataObservables.TryGetValue(currencyPair, out var marketDataObservable))
 				return marketDataObservable;
 
