@@ -38,26 +38,14 @@ namespace Trader.Client.Infrastucture
 			Views
 			.Filtering(vc => vc.Content is MenuItems)
 			.Selecting(vc => (MenuItems) vc.Content)
-			.CollectionProcessing(
-				(newMenuItems, _) =>
-				{
-					IDisposable[] subscriptions = new IDisposable[newMenuItems.Length];
-					for (int index = 0; index < newMenuItems.Length; index++)
-						subscriptions[index] =
-							newMenuItems[index].ItemCreated.Subscribe(
-								item =>
-								{
-									Views.Add(item);
-									Selected = item;
-								});
-
-					return subscriptions;
-				},
-				(oldMenuItems, _, subscriptions) =>
-				{
-					foreach (IDisposable subscription in subscriptions)
-						subscription.Dispose();
-				})
+			.CollectionItemProcessing((newMenuItem, _) =>
+				newMenuItem.ItemCreated.Subscribe(
+					item =>
+					{
+						Views.Add(item);
+						Selected = item;
+					}))
+			.CollectionDisposing()
 			.For(_consumer);
 		}
 		

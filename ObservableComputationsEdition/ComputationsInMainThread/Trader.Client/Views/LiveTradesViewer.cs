@@ -20,8 +20,8 @@ namespace Trader.Client.Views
 			Data = tradeService.Live
 				.CollectionPausing(() => Paused)
 				.Filtering(t =>
-					t.CurrencyPair.Contains(SearchHints.SearchTextToApply.Value, StringComparison.OrdinalIgnoreCase)
-					|| t.Customer.Contains(SearchHints.SearchTextToApply.Value, StringComparison.OrdinalIgnoreCase))
+					t.CurrencyPair.Contains(SearchHints.SearchTextThrottled.Value, StringComparison.OrdinalIgnoreCase)
+					|| t.Customer.Contains(SearchHints.SearchTextThrottled.Value, StringComparison.OrdinalIgnoreCase))
 				.Ordering(t => t.Timestamp, ListSortDirection.Descending)
 				.Selecting(t => new TradeProxy(t))
 				.CollectionDisposing()

@@ -33,8 +33,8 @@ namespace Trader.Client.Views
 				new Computing<ObservableCollection<TradeProxy>>(
 					 () => SortParameters.SelectedItem.SortedData)
 				.Filtering(t =>	
-					t.Trade.CurrencyPair.Contains(SearchHints.SearchTextToApply.Value, StringComparison.OrdinalIgnoreCase)
-					|| t.Trade.Customer.Contains(SearchHints.SearchTextToApply.Value, StringComparison.OrdinalIgnoreCase));
+					t.Trade.CurrencyPair.Contains(SearchHints.SearchTextThrottled.Value, StringComparison.OrdinalIgnoreCase)
+					|| t.Trade.Customer.Contains(SearchHints.SearchTextThrottled.Value, StringComparison.OrdinalIgnoreCase));
 
 			Data = AllData.Paging(25, 1).For(_consumer);
 

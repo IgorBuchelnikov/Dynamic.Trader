@@ -98,36 +98,13 @@ namespace Trader.Domain.Services
 			}
 
 			All
-				.CollectionProcessing(
-					(newTrades, processing) =>
-					{
-						PropertyChangedEventHandler[] tradeOnPropertyChangedHandlers = 
-							new PropertyChangedEventHandler[newTrades.Length];
-						for (var index = 0; index < newTrades.Length; index++)
-						{
-							Trade trade = newTrades[index];
-
-							if (!processing.ActivationInProgress)
-								log(trade);
-
-							//void tradeOnPropertyChanged(object sender, PropertyChangedEventArgs args) => 
-							//	logPropertyChangedOcDispatcher.InvokeAsync(() => log(trade));
-
-							//trade.PropertyChanged += tradeOnPropertyChanged;
-							//tradeOnPropertyChangedHandlers[index] = tradeOnPropertyChanged;
-						}
-
-						return tradeOnPropertyChangedHandlers;
-					},
-					(oldTrades, _, tradeOnPropertyChangedHandlers) =>
-					{
-						//for (var index = 0; index < tradeOnPropertyChangedHandlers.Length; index++)
-						//{
-						//	Trade trade = oldTrades[index];
-						//	if (trade != null) 
-						//		trade.PropertyChanged -= tradeOnPropertyChangedHandlers[index];
-						//}
-					}).For(_consumer);	   
+			.CollectionItemProcessing(
+				(newTrade, processing) =>
+				{
+					if (!processing.ActivationInProgress)
+						log(newTrade);
+				})
+			.For(_consumer);	   
 		}
 
 		public ObservableCollection<Trade> All { get; }

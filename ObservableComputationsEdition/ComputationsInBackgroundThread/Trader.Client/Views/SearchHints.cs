@@ -1,33 +1,46 @@
 using System;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using ObservableComputations;
 using Trader.Domain.Infrastucture;
+using Trader.Domain.Services;
 
 namespace Trader.Client.Views
 {
 	public class SearchHints : AbstractNotifyPropertyChanged, IDisposable
 	{
-		private string _searchText = String.Empty;
-		private readonly Computing<string> _searchTextToApply;
+		private string _searchText = "";
+		private readonly ScalarDispatching<string> _searchTextThrottled;
+		private readonly ObservableCollection<string> _hints;
 		private readonly OcConsumer _consumer = new OcConsumer();
 
-		public SearchHints(UserInputThrottlingOcDispatcher userInputThrottlingOcDispatcher, WpfOcDispatcher wpfOcDispatcher)
+		public SearchHints(ITradeService tradeService, UserInputThrottlingOcDispatcher throttling, OcDispatcher backgroundOcDispatcher, WpfOcDispatcher wpfOcDispatcher)
 		{
-			_searchTextToApply =
-				new Computing<string>(() => 
-					new Computing<string>(() => SearchText)
-					.ScalarDispatching(userInputThrottlingOcDispatcher)
-					.Value ?? string.Empty)
-				.For(_consumer);
+			_searchTextThrottled =
+				new Computing<string>(() => SearchText)
+					.ScalarDispatching(throttling)
+					.SetDefaultValue("")
+					.For(_consumer);
 
-			_searchTextToApply.PreValueChanged += (sender, args) => 
+			_searchTextThrottled.PreValueChanged += (sender, args) => 
 				wpfOcDispatcher.IsPaused = true;
 
-			_searchTextToApply.PostValueChanged += (sender, args) =>
+			_searchTextThrottled.PostValueChanged += (sender, args) =>
 			{
 				wpfOcDispatcher.IsPaused = false;
 				wpfOcDispatcher.Invoke(CommandManager.InvalidateRequerySuggested);
 			};
+
+			_hints = 
+				tradeService.Live.Selecting(t => t.CurrencyPair).Distincting()
+				.Concatenating(
+					tradeService.Live.Selecting(t => t.Customer).Distincting())
+				.Filtering(str =>
+					str.Contains(_searchTextThrottled.Value, StringComparison.OrdinalIgnoreCase)
+					|| str.Contains(_searchTextThrottled.Value, StringComparison.OrdinalIgnoreCase))
+				.Ordering(s => s)
+				.CollectionDispatching(wpfOcDispatcher, backgroundOcDispatcher)
+				.For(_consumer);
 		}
 
 		public string SearchText
@@ -36,7 +49,9 @@ namespace Trader.Client.Views
 			set => SetAndRaise(ref _searchText, value);
 		}
 
-		public IReadScalar<string> SearchTextToApply => _searchTextToApply;
+		public IReadScalar<string> SearchTextThrottled => _searchTextThrottled;
+
+		public ObservableCollection<string> Hints => _hints;
 
 		public void Dispose()
 		{

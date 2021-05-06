@@ -63,7 +63,7 @@
       <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.19\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
     </Reference>
     <Reference Include="ObservableComputations, Version=2.1.0.0, Culture=neutral, PublicKeyToken=f929bfa2aaeea235, processorArchitecture=MSIL">
-      <HintPath>..\packages\ObservableComputations.2.1.0\lib\net461\ObservableComputations.dll</HintPath>
+      <HintPath>..\packages\ObservableComputations.2.2.0\lib\net461\ObservableComputations.dll</HintPath>
     </Reference>
     <Reference Include="Splat, Version=9.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Splat.9.1.1\lib\net461\Splat.dll</HintPath>

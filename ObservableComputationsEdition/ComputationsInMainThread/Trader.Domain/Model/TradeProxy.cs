@@ -9,8 +9,6 @@ namespace Trader.Domain.Model
 	{
 		private readonly IDisposable _cleanUp;
 		private readonly long _id;
-		private decimal _marketPrice;
-		private decimal _pcFromMarketPrice;
 		private bool _recent;
 
 		public Trade Trade { get; }

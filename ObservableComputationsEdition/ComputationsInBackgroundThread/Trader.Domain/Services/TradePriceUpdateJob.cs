@@ -19,48 +19,41 @@ namespace Trader.Domain.Services
 
 			tradeService.All
 			.Grouping(t => t.CurrencyPair)
-			.CollectionProcessing(
-				(newTradeGroups, @this) =>
+			.CollectionItemProcessing(
+				(newTradeGroup, _) =>
 				{
-					IDisposable[] disposables = new IDisposable[newTradeGroups.Length];
-					for (var index = 0; index < newTradeGroups.Length; index++)
-					{
-						var tradesGroup = newTradeGroups[index];
-						IReadScalar<MarketData> observableMarketData =
-							marketDataService.Get(tradesGroup.Key);
+					IReadScalar<MarketData> observableMarketData =
+						marketDataService.Get(newTradeGroup.Key);
 
-						OcConsumer consumer1 = new OcConsumer();
+					OcConsumer consumer1 = new OcConsumer();
 
-						//DataHasChanged
-						tradesGroup.CollectionProcessing(
-							(newTrades, this1) =>
-							{
-								Trade[] newTradesCopy = newTrades.ToArray();
-							  
-								dispatcher.Invoke(() =>
-								{
-									foreach (Trade trade in newTradesCopy)
-										trade.MarketPrice = observableMarketData.Value.Bid;
-								}, DispatcherPriority.Background);
-								
-							})
-						.For(consumer1);
-
-						observableMarketData.Binding((newMarketData, _) =>
+					//DataHasChanged
+					newTradeGroup.CollectionItemsProcessing(
+						(newTrades, __) =>
 						{
-							decimal bid = observableMarketData.Value.Bid;
-							Trade[] tradesGroupCopy = tradesGroup.ToArray();
+							Trade[] newTradesCopy = newTrades.ToArray();
+						  
 							dispatcher.Invoke(() =>
 							{
-								tradesGroupCopy.ForEach(trade =>
-									trade.MarketPrice = bid);
+								foreach (Trade trade in newTradesCopy)
+									trade.MarketPrice = observableMarketData.Value.Bid;
 							}, DispatcherPriority.Background);
-						}).For(consumer1);
+							
+						})
+					.For(consumer1);
 
-						disposables[index] = consumer1;
-					}
+					observableMarketData.Binding((newMarketData, __) =>
+					{
+						decimal bid = observableMarketData.Value.Bid;
+						Trade[] tradesGroupCopy = newTradeGroup.ToArray();
+						dispatcher.Invoke(() =>
+						{
+							tradesGroupCopy.ForEach(trade =>
+								trade.MarketPrice = bid);
+						}, DispatcherPriority.Background);
+					}).For(consumer1);
 
-					return disposables;
+					return consumer1;
 				})
 			.CollectionDisposing()
 			.For(_consumer);

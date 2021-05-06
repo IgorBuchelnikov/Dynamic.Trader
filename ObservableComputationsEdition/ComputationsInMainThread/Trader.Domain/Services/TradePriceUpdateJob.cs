@@ -14,41 +14,30 @@ namespace Trader.Domain.Services
 		{
 			tradeService.All
 			.Grouping(t => t.CurrencyPair)
-			.CollectionProcessing(
-				(newTradeGroups, @this) =>
+			.CollectionItemProcessing(
+				(newTradeGroup, _) =>
 				{
-					IDisposable[] disposables = new IDisposable[newTradeGroups.Length];
-					for (var index = 0; index < newTradeGroups.Length; index++)
+					IReadScalar<MarketData> observableMarketData =
+							marketDataService.Get(newTradeGroup.Key);
+
+					OcConsumer consumer1 = new OcConsumer();
+
+					//DataHasChanged
+					newTradeGroup.CollectionItemProcessing(
+						(newTrade, __) =>
+							newTrade.MarketPrice = observableMarketData.Value.Bid)
+					.For(consumer1);
+
+					observableMarketData.Binding((newMarketData, __) =>
 					{
-						var tradesGroup = newTradeGroups[index];
-						IReadScalar<MarketData> observableMarketData =
-							marketDataService.Get(tradesGroup.Key);
+						decimal bid = observableMarketData.Value.Bid;
 
-						OcConsumer consumer1 = new OcConsumer();
+						newTradeGroup.ForEach(trade =>																
+							trade.MarketPrice = bid);
+				 
+					}).For(consumer1); 
 
-						//DataHasChanged
-						tradesGroup.CollectionProcessing(
-							(newTrades, @this1) =>
-							{
-								foreach (Trade trade in newTrades)
-									trade.MarketPrice = observableMarketData.Value.Bid;
-								
-							})
-						.For(consumer1);
-
-						observableMarketData.Binding((newMarketData, _) =>
-						{
-							decimal bid = observableMarketData.Value.Bid;
-
-							tradesGroup.ForEach(trade =>																
-								trade.MarketPrice = bid);
-					 
-						}).For(consumer1); 
-
-						disposables[index] = new CompositeDisposable(consumer1);
-					}
-
-					return disposables;
+					return consumer1;
 				})
 			.CollectionDisposing()
 			.For(_consumer);
